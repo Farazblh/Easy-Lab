@@ -195,14 +195,14 @@ export const generatePDFReport = async (
           method: 'FDA BAM Ch.3',
           value: results.tpc ? `${results.tpc} CFU/g` : 'Not Tested',
           limit: '<100000',
-          status: results.tpc ? (results.tpc <= 100000 ? 'Pass' : 'Fail') : '-'
+          status: results.tpc !== null && results.tpc !== undefined ? (results.tpc <= 100000 ? 'Pass' : 'Fail') : '-'
         },
         {
           test: 'Total Coliforms',
           method: 'FDA BAM Ch.4',
           value: results.coliforms ? results.coliforms.toUpperCase() : 'Not Tested',
           limit: '<1000',
-          status: results.coliforms && (results.coliforms.toLowerCase() === 'nil' || results.coliforms.toLowerCase() === 'negative') ? 'Pass' : '-'
+          status: results.coliforms ? ((results.coliforms.toLowerCase() === 'nil' || results.coliforms.toLowerCase() === 'negative') ? 'Pass' : 'Fail') : '-'
         },
         {
           test: 'Staphylococcus aureus',
@@ -216,14 +216,14 @@ export const generatePDFReport = async (
           method: 'FDA BAM Ch.4A',
           value: results.ecoli_o157 ? results.ecoli_o157.toUpperCase() : 'Not Tested',
           limit: 'Nil',
-          status: results.ecoli_o157 && (results.ecoli_o157.toLowerCase() === 'nil' || results.ecoli_o157.toLowerCase() === 'negative' || results.ecoli_o157.toLowerCase() === 'not detected') ? 'Pass' : (results.ecoli_o157 ? 'Fail' : '-')
+          status: results.ecoli_o157 ? ((results.ecoli_o157.toLowerCase() === 'nil' || results.ecoli_o157.toLowerCase() === 'negative' || results.ecoli_o157.toLowerCase() === 'not detected') ? 'Pass' : 'Fail') : '-'
         },
         {
           test: 'Salmonella spp.',
           method: 'FDA BAM Ch.5',
           value: results.salmonella ? results.salmonella.toUpperCase() : 'Not Tested',
           limit: 'Nil',
-          status: results.salmonella && (results.salmonella.toLowerCase() === 'nil' || results.salmonella.toLowerCase() === 'negative' || results.salmonella.toLowerCase() === 'not detected') ? 'Pass' : (results.salmonella ? 'Fail' : '-')
+          status: results.salmonella ? ((results.salmonella.toLowerCase() === 'nil' || results.salmonella.toLowerCase() === 'negative' || results.salmonella.toLowerCase() === 'not detected') ? 'Pass' : 'Fail') : '-'
         },
       ];
     } else if (reportType === 'air' && options.customData) {
@@ -325,9 +325,9 @@ export const generatePDFReport = async (
         const overallStatus = apcStatus === 'Pass' && coliformStatus === 'Pass' ? 'Pass' : 'Fail';
 
         testData.push({
-          test: `${worker.name} (${worker.area})`,
+          test: `${worker.area}`,
           method: 'FDA BAM',
-          value: `APC: ${worker.apc} CFU/glove\nColiform: ${worker.coliform || 'Nil'}`,
+          value: `${worker.name}\nAPC: ${worker.apc} CFU/glove\nColiform: ${worker.coliform || 'Nil'}`,
           limit: 'APC: <100 CFU/glove\nColiform: Nil',
           status: overallStatus
         });
