@@ -41,6 +41,7 @@ const Dashboard = () => {
   const [recentSamples, setRecentSamples] = useState<RecentSample[]>([]);
   const [recentReports, setRecentReports] = useState<RecentReport[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDashboardData();
@@ -103,6 +104,38 @@ const Dashboard = () => {
     }
 
     setLoading(false);
+  };
+
+  const handleDeleteSample = async (sampleId: string) => {
+    if (!confirm('Are you sure you want to delete this sample?')) return;
+
+    setDeleting(sampleId);
+    try {
+      const { error } = await supabase.from('samples').delete().eq('id', sampleId);
+      if (error) throw error;
+
+      fetchDashboardData();
+    } catch (error: any) {
+      alert('Error deleting sample: ' + error.message);
+    } finally {
+      setDeleting(null);
+    }
+  };
+
+  const handleDeleteReport = async (reportId: string) => {
+    if (!confirm('Are you sure you want to delete this report?')) return;
+
+    setDeleting(reportId);
+    try {
+      const { error } = await supabase.from('reports').delete().eq('id', reportId);
+      if (error) throw error;
+
+      fetchDashboardData();
+    } catch (error: any) {
+      alert('Error deleting report: ' + error.message);
+    } finally {
+      setDeleting(null);
+    }
   };
 
   const handleDeleteAll = async (type: 'all' | 'pending' | 'completed' | 'reports') => {
@@ -218,12 +251,17 @@ const Dashboard = () => {
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Status
                   </th>
+                  {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Action
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {recentSamples.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="px-4 py-8 text-center text-gray-500 text-sm">
+                    <td colSpan={profile?.role === 'admin' || profile?.role === 'analyst' ? 4 : 3} className="px-4 py-8 text-center text-gray-500 text-sm">
                       No samples found
                     </td>
                   </tr>
@@ -247,6 +285,18 @@ const Dashboard = () => {
                           {sample.status}
                         </span>
                       </td>
+                      {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => handleDeleteSample(sample.id)}
+                            disabled={deleting === sample.id}
+                            className="p-2 rounded-lg text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            title="Delete sample"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))
                 )}
@@ -272,12 +322,17 @@ const Dashboard = () => {
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Date
                   </th>
+                  {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Action
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {recentReports.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="px-4 py-8 text-center text-gray-500 text-sm">
+                    <td colSpan={profile?.role === 'admin' || profile?.role === 'analyst' ? 4 : 3} className="px-4 py-8 text-center text-gray-500 text-sm">
                       No reports generated yet
                     </td>
                   </tr>
@@ -298,6 +353,18 @@ const Dashboard = () => {
                           {new Date(report.date_generated).toLocaleDateString()}
                         </span>
                       </td>
+                      {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => handleDeleteReport(report.id)}
+                            disabled={deleting === report.id}
+                            className="p-2 rounded-lg text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            title="Delete report"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))
                 )}
