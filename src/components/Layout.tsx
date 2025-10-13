@@ -76,6 +76,10 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
           <div className="mb-3 px-2">
+            <p className="text-sm font-semibold text-gray-900">Junaid Gabol</p>
+            <p className="text-xs text-gray-500">Admin</p>
+          </div>
+          <div className="mb-3 px-2">
             <p className="text-sm font-semibold text-gray-900">{profile?.full_name}</p>
             <p className="text-xs text-gray-500 capitalize">{profile?.role}</p>
           </div>
