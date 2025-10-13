@@ -104,31 +104,51 @@ const Settings = () => {
     }
   };
 
-  const handleDeleteUser = async (userId: string) => {
-    if (!confirm('Are you sure you want to delete this user?')) return;
+  const handleDeleteUser = async (userId: string, userEmail: string) => {
+    if (!confirm(`Are you sure you want to delete ${userEmail}? This action cannot be undone.`)) return;
 
     setLoading(true);
     setError('');
     setSuccess('');
 
     try {
-      // Step 1: Delete profile first (foreign key constraint)
-      const { error: profileError } = await supabase
+      console.log('🔍 Attempting to delete user:', { userId, userEmail });
+      console.log('🔍 Current admin:', profile);
+
+      // Delete profile - database trigger will automatically delete auth user
+      const { data, error: profileError } = await supabase
         .from('profiles')
         .delete()
-        .eq('id', userId);
+        .eq('id', userId)
+        .select();
 
-      if (profileError) throw profileError;
+      console.log('🔍 Delete result:', { data, error: profileError });
 
-      // Step 2: Delete auth user
-      const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
-      if (deleteError) throw deleteError;
+      if (profileError) {
+        console.error('❌ Profile deletion error:', profileError);
 
-      setSuccess('User deleted successfully');
+        if (profileError.message.includes('main admin')) {
+          throw new Error('Cannot delete the main admin account');
+        }
+
+        if (profileError.code === '42501') {
+          throw new Error('Permission denied. Only admins can delete users.');
+        }
+
+        throw new Error(profileError.message || 'Failed to delete user');
+      }
+
+      if (!data || data.length === 0) {
+        throw new Error('User not found or already deleted');
+      }
+
+      console.log('✅ User deleted successfully:', data);
+      setSuccess(`User ${userEmail} deleted successfully`);
       fetchUsers();
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to delete user. You may not have permission.');
+      console.error('❌ Delete user error:', err);
+      setError(err.message || 'Failed to delete user. You may not have permission or this is a protected account.');
     } finally {
       setLoading(false);
     }
@@ -356,7 +376,7 @@ const Settings = () => {
                       </td>
                       <td className="px-4 py-3">
                         <button
-                          onClick={() => handleDeleteUser(user.id)}
+                          onClick={() => handleDeleteUser(user.id, user.email)}
                           disabled={user.id === profile?.id}
                           className="text-red-600 hover:text-red-800 disabled:text-gray-400 disabled:cursor-not-allowed"
                           title={user.id === profile?.id ? "You cannot delete yourself" : "Delete user"}
