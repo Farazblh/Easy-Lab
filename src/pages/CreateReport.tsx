@@ -298,79 +298,85 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
   };
 
   const handleGenerateReport = async () => {
-    if (reportType === 'meat') {
-      if (!supplierName.trim()) {
-        alert('Please enter supplier name');
+    try {
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session?.user) {
+        alert('Please log in to generate reports');
+        window.location.href = '/';
         return;
       }
 
-      if (!sampleRows[0].supplierCode || !sampleRows[0].supplierCode.trim()) {
-        alert('Please enter supplier code');
-        return;
+      if (reportType === 'meat') {
+        if (!supplierName.trim()) {
+          alert('Please enter supplier name');
+          return;
+        }
+
+        if (!sampleRows[0].supplierCode || !sampleRows[0].supplierCode.trim()) {
+          alert('Please enter supplier code');
+          return;
+        }
+
+        if (!sampleRows[0].collectionDate) {
+          alert('Please enter collection date');
+          return;
+        }
+
+        if (!sampleRows[0].reportDate) {
+          alert('Please enter report date');
+          return;
+        }
+      } else if (reportType === 'air') {
+        if (!airQualityData.collectionDate) {
+          alert('Please enter collection date');
+          return;
+        }
+        if (!airQualityData.reportDate) {
+          alert('Please enter report date');
+          return;
+        }
+      } else if (reportType === 'water') {
+        if (!waterQualityData.collectionDate) {
+          alert('Please enter collection date');
+          return;
+        }
+        if (!waterQualityData.reportDate) {
+          alert('Please enter report date');
+          return;
+        }
+      } else if (reportType === 'foodhandler') {
+        if (!foodHandlerData.collectionDate) {
+          alert('Please enter collection date');
+          return;
+        }
+        if (!foodHandlerData.reportDate) {
+          alert('Please enter report date');
+          return;
+        }
+      } else if (reportType === 'foodsurface') {
+        if (!foodSurfaceData.collectionDate) {
+          alert('Please enter collection date');
+          return;
+        }
+        if (!foodSurfaceData.reportDate) {
+          alert('Please enter report date');
+          return;
+        }
+      } else if (reportType === 'deboning') {
+        if (!deboningData.collectionDate) {
+          alert('Please enter collection date');
+          return;
+        }
+        if (!deboningData.reportDate) {
+          alert('Please enter report date');
+          return;
+        }
       }
 
-      if (!sampleRows[0].collectionDate) {
-        alert('Please enter collection date');
-        return;
-      }
+      const userId = profile?.id || session.user.id;
 
-      if (!sampleRows[0].reportDate) {
-        alert('Please enter report date');
-        return;
-      }
-    } else if (reportType === 'air') {
-      if (!airQualityData.collectionDate) {
-        alert('Please enter collection date');
-        return;
-      }
-      if (!airQualityData.reportDate) {
-        alert('Please enter report date');
-        return;
-      }
-    } else if (reportType === 'water') {
-      if (!waterQualityData.collectionDate) {
-        alert('Please enter collection date');
-        return;
-      }
-      if (!waterQualityData.reportDate) {
-        alert('Please enter report date');
-        return;
-      }
-    } else if (reportType === 'foodhandler') {
-      if (!foodHandlerData.collectionDate) {
-        alert('Please enter collection date');
-        return;
-      }
-      if (!foodHandlerData.reportDate) {
-        alert('Please enter report date');
-        return;
-      }
-    } else if (reportType === 'foodsurface') {
-      if (!foodSurfaceData.collectionDate) {
-        alert('Please enter collection date');
-        return;
-      }
-      if (!foodSurfaceData.reportDate) {
-        alert('Please enter report date');
-        return;
-      }
-    } else if (reportType === 'deboning') {
-      if (!deboningData.collectionDate) {
-        alert('Please enter collection date');
-        return;
-      }
-      if (!deboningData.reportDate) {
-        alert('Please enter report date');
-        return;
-      }
-    }
-
-    if (!profile?.id) {
-      alert('User not logged in');
-      return;
-    }
-
-    setLoading(true);
+      setLoading(true);
 
     try {
       const sampleCode = reportType === 'meat'
@@ -451,7 +457,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           .from('samples')
           .insert({
             sample_code: sampleCode,
-            user_id: profile.id,
+            user_id: userId,
             sample_type: getSampleTypeTitle(),
             source: getSourceName(),
             collection_date: getCollectionDate(),
@@ -487,7 +493,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: sampleRows[0].comments,
-            tested_by: profile?.id,
+            tested_by: userId,
             tested_at: reportDate,
           };
         } else if (reportType === 'air') {
@@ -501,7 +507,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: airQualityData.remarks,
-            tested_by: profile?.id,
+            tested_by: userId,
             tested_at: reportDate,
             custom_data: JSON.stringify(airQualityData),
           };
@@ -516,7 +522,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: waterQualityData.samplingPoints[0]?.ph ? parseFloat(waterQualityData.samplingPoints[0].ph) : null,
             tds: waterQualityData.samplingPoints[0]?.tds ? parseFloat(waterQualityData.samplingPoints[0].tds) : null,
             remarks: waterQualityData.remarks,
-            tested_by: profile?.id,
+            tested_by: userId,
             tested_at: reportDate,
             custom_data: JSON.stringify(waterQualityData),
           };
@@ -531,7 +537,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Food Handler Testing Report',
-            tested_by: profile?.id,
+            tested_by: userId,
             tested_at: reportDate,
             custom_data: JSON.stringify(foodHandlerData),
           };
@@ -546,7 +552,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Food Contact Surface Testing Report',
-            tested_by: profile?.id,
+            tested_by: userId,
             tested_at: reportDate,
             custom_data: JSON.stringify(foodSurfaceData),
           };
@@ -561,7 +567,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Deboning Food Handler Testing Report',
-            tested_by: profile?.id,
+            tested_by: userId,
             tested_at: reportDate,
             custom_data: JSON.stringify(deboningData),
           };
@@ -599,9 +605,9 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         .from('reports')
         .insert({
           sample_id: sampleData.id,
-          user_id: profile.id,
+          user_id: userId,
           pdf_url: `${sampleCode}_Report_${new Date().toISOString().split('T')[0]}.pdf`,
-          generated_by: profile.id,
+          generated_by: userId,
         })
         .select(`
           *,
@@ -636,10 +642,15 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         }, 1500);
       }
     } catch (error: any) {
-      alert('Error generating report: ' + error.message);
-      console.error(error);
+      console.error('Error generating report:', error);
+      alert('Error generating report: ' + (error.message || 'Unknown error'));
     } finally {
       setLoading(false);
+    }
+    } catch (error: any) {
+      console.error('Authentication error:', error);
+      alert('Authentication error. Please try logging in again.');
+      window.location.href = '/';
     }
   };
 
