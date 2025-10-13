@@ -10,8 +10,7 @@ import {
   X,
   FlaskConical,
   ClipboardList,
-  FilePlus,
-  Users
+  FilePlus
 } from 'lucide-react';
 
 type LayoutProps = {
@@ -30,7 +29,6 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
     { id: 'samples', label: 'Samples', icon: TestTube, roles: ['admin', 'analyst', 'viewer'] },
     { id: 'test-results', label: 'Test Results', icon: ClipboardList, roles: ['admin', 'analyst', 'viewer'] },
     { id: 'reports', label: 'Reports', icon: FileText, roles: ['admin', 'analyst', 'viewer'] },
-    { id: 'clients', label: 'Clients', icon: Users, roles: ['admin', 'analyst'] },
     { id: 'settings', label: 'Settings', icon: Settings, roles: ['admin', 'analyst', 'viewer'] },
   ];
 
