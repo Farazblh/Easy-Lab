@@ -19,6 +19,16 @@ type RecentSample = {
   source: string;
 };
 
+type RecentReport = {
+  id: string;
+  pdf_url: string;
+  date_generated: string;
+  sample: {
+    sample_code: string;
+    sample_type: string;
+    source: string;
+  } | null;
+};
 
 const Dashboard = () => {
   const { profile } = useAuth();
@@ -29,6 +39,7 @@ const Dashboard = () => {
     totalReports: 0,
   });
   const [recentSamples, setRecentSamples] = useState<RecentSample[]>([]);
+  const [recentReports, setRecentReports] = useState<RecentReport[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -69,20 +80,46 @@ const Dashboard = () => {
       setRecentSamples(samplesData);
     }
 
+    const { data: reportsData } = await supabase
+      .from('reports')
+      .select(`
+        id,
+        pdf_url,
+        date_generated,
+        sample:sample_id (
+          sample_code,
+          sample_type,
+          source
+        )
+      `)
+      .order('date_generated', { ascending: false })
+      .limit(5);
+
+    if (reportsData) {
+      setRecentReports(reportsData.map(r => ({
+        ...r,
+        sample: Array.isArray(r.sample) ? r.sample[0] : r.sample
+      })));
+    }
+
     setLoading(false);
   };
 
-  const handleDeleteAll = async (type: 'all' | 'pending' | 'completed') => {
+  const handleDeleteAll = async (type: 'all' | 'pending' | 'completed' | 'reports') => {
     const confirmMessages = {
-      all: 'Are you sure you want to delete ALL samples? This will also delete related test results.',
+      all: 'Are you sure you want to delete ALL samples? This will also delete related test results and reports.',
       pending: 'Are you sure you want to delete all PENDING samples?',
-      completed: 'Are you sure you want to delete all COMPLETED samples?'
+      completed: 'Are you sure you want to delete all COMPLETED samples?',
+      reports: 'Are you sure you want to delete all REPORTS?'
     };
 
     if (!confirm(confirmMessages[type])) return;
 
     try {
-      if (type === 'all') {
+      if (type === 'reports') {
+        const { error } = await supabase.from('reports').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+        if (error) throw error;
+      } else if (type === 'all') {
         const { error } = await supabase.from('samples').delete().neq('id', '00000000-0000-0000-0000-000000000000');
         if (error) throw error;
       } else {
@@ -132,7 +169,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           icon={TestTube}
           label="Total Samples"
@@ -154,9 +191,16 @@ const Dashboard = () => {
           color="bg-green-600"
           onDelete={() => handleDeleteAll('completed')}
         />
+        <StatCard
+          icon={FileText}
+          label="Reports Generated"
+          value={stats.totalReports}
+          color="bg-purple-600"
+          onDelete={() => handleDeleteAll('reports')}
+        />
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="p-6 border-b border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900">Recent Samples</h3>
@@ -211,6 +255,56 @@ const Dashboard = () => {
           </div>
         </div>
 
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div className="p-6 border-b border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900">Recent Reports</h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Sample
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Supplier
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {recentReports.length === 0 ? (
+                  <tr>
+                    <td colSpan={3} className="px-4 py-8 text-center text-gray-500 text-sm">
+                      No reports generated yet
+                    </td>
+                  </tr>
+                ) : (
+                  recentReports.map((report) => (
+                    <tr key={report.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3">
+                        <div className="text-sm">
+                          <p className="font-medium text-gray-900">{report.sample?.sample_code || 'N/A'}</p>
+                          <p className="text-xs text-gray-500">{report.sample?.sample_type || ''}</p>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-sm text-gray-700">{report.sample?.source || 'N/A'}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-sm text-gray-600">
+                          {new Date(report.date_generated).toLocaleDateString()}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
