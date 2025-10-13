@@ -34,6 +34,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (profile?.role === 'admin') {
+      setUsers([]);
       fetchUsers();
     }
   }, [profile]);
