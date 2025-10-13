@@ -43,10 +43,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .maybeSingle();
 
     if (error) {
-      console.error('❌ Error fetching profile:', error);
+      console.error('Error fetching profile:', error);
       return null;
     }
-    console.log('✅ Profile loaded:', data);
     return data;
   };
 

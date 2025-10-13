@@ -811,12 +811,6 @@ export const generatePDFReport = async (
   doc.setTextColor(33, 33, 33);
   doc.text('AUTHORIZED SIGNATURE', margin + 3, yPos);
 
-  yPos += 2;
-  doc.setDrawColor(60, 60, 60);
-  doc.setLineWidth(0.5);
-  doc.line(margin + 3, yPos, margin + 60, yPos);
-
-  yPos += 3;
   const signatureStartY = yPos;
 
   try {
@@ -854,6 +848,11 @@ export const generatePDFReport = async (
   yPos += 4;
   doc.text('Senior Microbiologist', margin + 3, yPos);
 
+  yPos += 6;
+  doc.setDrawColor(60, 60, 60);
+  doc.setLineWidth(0.5);
+  doc.line(margin + 3, yPos, margin + 45, yPos);
+
   const stampSize = 35;
   const stampX = pageWidth - margin - stampSize - 10;
   const stampY = signatureStartY + 5;
@@ -861,13 +860,7 @@ export const generatePDFReport = async (
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(33, 33, 33);
-  const stampLabelY = signatureStartY - 5;
-  doc.text('AUTHORIZED STAMP', stampX + stampSize / 2, stampLabelY, { align: 'center' });
-
-  const stampLineY = stampLabelY + 2;
-  doc.setDrawColor(60, 60, 60);
-  doc.setLineWidth(0.5);
-  doc.line(stampX, stampLineY, stampX + stampSize, stampLineY);
+  doc.text('AUTHORIZED STAMP', stampX + stampSize / 2, signatureStartY, { align: 'center' });
 
   try {
     const stampPath = '/organic stamp.png';
@@ -883,6 +876,11 @@ export const generatePDFReport = async (
   } catch (error) {
     console.error('Stamp load error:', error);
   }
+
+  const stampBottomY = stampY + stampSize + 2;
+  doc.setDrawColor(60, 60, 60);
+  doc.setLineWidth(0.5);
+  doc.line(stampX, stampBottomY, stampX + stampSize, stampBottomY);
 
   const footerY = pageHeight - 20;
   doc.setDrawColor(139, 69, 19);
