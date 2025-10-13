@@ -601,17 +601,16 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         .from('reports')
         .insert({
           sample_id: sampleData.id,
-          user_id: user.id,
           pdf_url: `${sampleCode}_Report_${new Date().toISOString().split('T')[0]}.pdf`,
           generated_by: user.id,
         })
         .select(`
           *,
-          sample:samples(
+          sample:sample_id(
             *,
             test_result:test_results(*)
           ),
-          generated_by_user:generated_by(*)
+          generator:generated_by(full_name)
         `)
         .single();
 
