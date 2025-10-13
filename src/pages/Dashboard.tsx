@@ -235,8 +235,22 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
+          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
             <h3 className="text-lg font-semibold text-gray-900">Recent Samples</h3>
+            {(profile?.role === 'admin' || profile?.role === 'analyst') && recentSamples.length > 0 && (
+              <button
+                onClick={() => {
+                  if (confirm('Delete all samples shown below?')) {
+                    Promise.all(recentSamples.map(s => supabase.from('samples').delete().eq('id', s.id)))
+                      .then(() => fetchDashboardData());
+                  }
+                }}
+                className="flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-sm font-medium"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete All
+              </button>
+            )}
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -306,8 +320,22 @@ const Dashboard = () => {
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
+          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
             <h3 className="text-lg font-semibold text-gray-900">Recent Reports</h3>
+            {(profile?.role === 'admin' || profile?.role === 'analyst') && recentReports.length > 0 && (
+              <button
+                onClick={() => {
+                  if (confirm('Delete all reports shown below?')) {
+                    Promise.all(recentReports.map(r => supabase.from('reports').delete().eq('id', r.id)))
+                      .then(() => fetchDashboardData());
+                  }
+                }}
+                className="flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-sm font-medium"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete All
+              </button>
+            )}
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
