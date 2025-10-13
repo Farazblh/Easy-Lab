@@ -19,6 +19,16 @@ type RecentSample = {
   source: string;
 };
 
+type RecentReport = {
+  id: string;
+  pdf_url: string;
+  date_generated: string;
+  sample: {
+    sample_code: string;
+    sample_type: string;
+    source: string;
+  } | null;
+};
 
 const Dashboard = () => {
   const { profile } = useAuth();
@@ -29,6 +39,7 @@ const Dashboard = () => {
     totalReports: 0,
   });
   const [recentSamples, setRecentSamples] = useState<RecentSample[]>([]);
+  const [recentReports, setRecentReports] = useState<RecentReport[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
 
@@ -70,6 +81,28 @@ const Dashboard = () => {
       setRecentSamples(samplesData);
     }
 
+    const { data: reportsData } = await supabase
+      .from('reports')
+      .select(`
+        id,
+        pdf_url,
+        date_generated,
+        sample:sample_id (
+          sample_code,
+          sample_type,
+          source
+        )
+      `)
+      .order('date_generated', { ascending: false })
+      .limit(5);
+
+    if (reportsData) {
+      setRecentReports(reportsData.map(r => ({
+        ...r,
+        sample: Array.isArray(r.sample) ? r.sample[0] : r.sample
+      })));
+    }
+
     setLoading(false);
   };
 
@@ -89,6 +122,21 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteReport = async (reportId: string) => {
+    if (!confirm('Are you sure you want to delete this report?')) return;
+
+    setDeleting(reportId);
+    try {
+      const { error } = await supabase.from('reports').delete().eq('id', reportId);
+      if (error) throw error;
+
+      fetchDashboardData();
+    } catch (error: any) {
+      alert('Error deleting report: ' + error.message);
+    } finally {
+      setDeleting(null);
+    }
+  };
 
   const handleDeleteAll = async (type: 'all' | 'pending' | 'completed' | 'reports') => {
     const confirmMessages = {
@@ -185,88 +233,172 @@ const Dashboard = () => {
         />
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-gray-900">Recent Samples</h3>
-          {(profile?.role === 'admin' || profile?.role === 'analyst') && recentSamples.length > 0 && (
-            <button
-              onClick={() => {
-                if (confirm('Delete all samples shown below?')) {
-                  Promise.all(recentSamples.map(s => supabase.from('samples').delete().eq('id', s.id)))
-                    .then(() => fetchDashboardData());
-                }
-              }}
-              className="flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-sm font-medium"
-            >
-              <Trash2 className="w-4 h-4" />
-              Delete All
-            </button>
-          )}
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Sample Code
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Type
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Status
-                </th>
-                {(profile?.role === 'admin' || profile?.role === 'analyst') && (
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Action
-                  </th>
-                )}
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {recentSamples.length === 0 ? (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-gray-900">Recent Samples</h3>
+            {(profile?.role === 'admin' || profile?.role === 'analyst') && recentSamples.length > 0 && (
+              <button
+                onClick={() => {
+                  if (confirm('Delete all samples shown below?')) {
+                    Promise.all(recentSamples.map(s => supabase.from('samples').delete().eq('id', s.id)))
+                      .then(() => fetchDashboardData());
+                  }
+                }}
+                className="flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-sm font-medium"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete All
+              </button>
+            )}
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
                 <tr>
-                  <td colSpan={profile?.role === 'admin' || profile?.role === 'analyst' ? 4 : 3} className="px-4 py-8 text-center text-gray-500 text-sm">
-                    No samples found
-                  </td>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Sample Code
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Type
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Status
+                  </th>
+                  {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Action
+                    </th>
+                  )}
                 </tr>
-              ) : (
-                recentSamples.map((sample) => (
-                  <tr key={sample.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">
-                      <span className="text-sm font-medium text-gray-900">{sample.sample_code}</span>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {recentSamples.length === 0 ? (
+                  <tr>
+                    <td colSpan={profile?.role === 'admin' || profile?.role === 'analyst' ? 4 : 3} className="px-4 py-8 text-center text-gray-500 text-sm">
+                      No samples found
                     </td>
-                    <td className="px-4 py-3">
-                      <span className="text-sm text-gray-700">{sample.sample_type}</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          sample.status === 'completed'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-orange-100 text-orange-800'
-                        }`}
-                      >
-                        {sample.status}
-                      </span>
-                    </td>
-                    {(profile?.role === 'admin' || profile?.role === 'analyst') && (
-                      <td className="px-4 py-3">
-                        <button
-                          onClick={() => handleDeleteSample(sample.id)}
-                          disabled={deleting === sample.id}
-                          className="p-2 rounded-lg text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                          title="Delete sample"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </td>
-                    )}
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  recentSamples.map((sample) => (
+                    <tr key={sample.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3">
+                        <span className="text-sm font-medium text-gray-900">{sample.sample_code}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-sm text-gray-700">{sample.sample_type}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            sample.status === 'completed'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-orange-100 text-orange-800'
+                          }`}
+                        >
+                          {sample.status}
+                        </span>
+                      </td>
+                      {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => handleDeleteSample(sample.id)}
+                            disabled={deleting === sample.id}
+                            className="p-2 rounded-lg text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            title="Delete sample"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      )}
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-gray-900">Recent Reports</h3>
+            {(profile?.role === 'admin' || profile?.role === 'analyst') && recentReports.length > 0 && (
+              <button
+                onClick={() => {
+                  if (confirm('Delete all reports shown below?')) {
+                    Promise.all(recentReports.map(r => supabase.from('reports').delete().eq('id', r.id)))
+                      .then(() => fetchDashboardData());
+                  }
+                }}
+                className="flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-sm font-medium"
+              >
+                <Trash2 className="w-4 h-4" />
+                Delete All
+              </button>
+            )}
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Sample
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Supplier
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Date
+                  </th>
+                  {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Action
+                    </th>
+                  )}
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {recentReports.length === 0 ? (
+                  <tr>
+                    <td colSpan={profile?.role === 'admin' || profile?.role === 'analyst' ? 4 : 3} className="px-4 py-8 text-center text-gray-500 text-sm">
+                      No reports generated yet
+                    </td>
+                  </tr>
+                ) : (
+                  recentReports.map((report) => (
+                    <tr key={report.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3">
+                        <div className="text-sm">
+                          <p className="font-medium text-gray-900">{report.sample?.sample_code || 'N/A'}</p>
+                          <p className="text-xs text-gray-500">{report.sample?.sample_type || ''}</p>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-sm text-gray-700">{report.sample?.source || 'N/A'}</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-sm text-gray-600">
+                          {new Date(report.date_generated).toLocaleDateString()}
+                        </span>
+                      </td>
+                      {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => handleDeleteReport(report.id)}
+                            disabled={deleting === report.id}
+                            className="p-2 rounded-lg text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            title="Delete report"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      )}
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
