@@ -848,11 +848,7 @@ export const generatePDFReport = async (
   yPos += 4;
   doc.text('Senior Microbiologist', margin + 3, yPos);
 
-  yPos += 6;
-  doc.setDrawColor(60, 60, 60);
-  doc.setLineWidth(0.5);
-  doc.line(margin + 3, yPos, margin + 45, yPos);
-
+  // Add authorized stamp label and organic stamp
   const stampSize = 35;
   const stampX = pageWidth - margin - stampSize - 10;
   const stampY = signatureStartY + 5;
@@ -876,11 +872,6 @@ export const generatePDFReport = async (
   } catch (error) {
     console.error('Stamp load error:', error);
   }
-
-  const stampBottomY = stampY + stampSize + 2;
-  doc.setDrawColor(60, 60, 60);
-  doc.setLineWidth(0.5);
-  doc.line(stampX, stampBottomY, stampX + stampSize, stampBottomY);
 
   const footerY = pageHeight - 20;
   doc.setDrawColor(139, 69, 19);

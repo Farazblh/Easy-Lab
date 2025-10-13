@@ -107,20 +107,7 @@ const Settings = () => {
   const handleDeleteUser = async (userId: string) => {
     if (!confirm('Are you sure you want to delete this user?')) return;
 
-    setLoading(true);
-    setError('');
-    setSuccess('');
-
     try {
-      // Step 1: Delete profile first (foreign key constraint)
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('id', userId);
-
-      if (profileError) throw profileError;
-
-      // Step 2: Delete auth user
       const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
       if (deleteError) throw deleteError;
 
@@ -128,9 +115,7 @@ const Settings = () => {
       fetchUsers();
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) {
-      setError(err.message || 'Failed to delete user. You may not have permission.');
-    } finally {
-      setLoading(false);
+      setError(err.message);
     }
   };
 
