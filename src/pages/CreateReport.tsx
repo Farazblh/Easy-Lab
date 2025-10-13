@@ -410,12 +410,22 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       };
 
       const getCollectionDate = () => {
-        if (reportType === 'meat') return sampleRows[0].collectionDate || new Date().toISOString();
-        if (reportType === 'air') return airQualityData.collectionDate || new Date().toISOString();
-        if (reportType === 'water') return waterQualityData.collectionDate || new Date().toISOString();
-        if (reportType === 'foodhandler') return foodHandlerData.collectionDate || new Date().toISOString();
-        if (reportType === 'foodsurface') return foodSurfaceData.collectionDate || new Date().toISOString();
-        if (reportType === 'deboning') return deboningData.collectionDate || new Date().toISOString();
+        if (reportType === 'meat') return sampleRows[0].collectionDate;
+        if (reportType === 'air') return airQualityData.collectionDate;
+        if (reportType === 'water') return waterQualityData.collectionDate;
+        if (reportType === 'foodhandler') return foodHandlerData.collectionDate;
+        if (reportType === 'foodsurface') return foodSurfaceData.collectionDate;
+        if (reportType === 'deboning') return deboningData.collectionDate;
+        return new Date().toISOString();
+      };
+
+      const getReportDate = () => {
+        if (reportType === 'meat') return sampleRows[0].reportDate;
+        if (reportType === 'air') return airQualityData.reportDate;
+        if (reportType === 'water') return waterQualityData.reportDate;
+        if (reportType === 'foodhandler') return foodHandlerData.reportDate;
+        if (reportType === 'foodsurface') return foodSurfaceData.reportDate;
+        if (reportType === 'deboning') return deboningData.reportDate;
         return new Date().toISOString();
       };
 
@@ -426,7 +436,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             sample_type: getSampleTypeTitle(),
             source: getSourceName(),
             collection_date: getCollectionDate(),
-            received_date: reportType === 'meat' ? (sampleRows[0].reportDate || new Date().toISOString()) : new Date().toISOString(),
+            received_date: getReportDate(),
             status: 'completed',
             updated_at: new Date().toISOString(),
           })
@@ -445,7 +455,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             sample_type: getSampleTypeTitle(),
             source: getSourceName(),
             collection_date: getCollectionDate(),
-            received_date: reportType === 'meat' ? (sampleRows[0].reportDate || new Date().toISOString()) : new Date().toISOString(),
+            received_date: getReportDate(),
             status: 'completed',
           })
           .select()
@@ -464,6 +474,8 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       let testResult;
 
       const getTestData = () => {
+        const reportDate = getReportDate();
+
         if (reportType === 'meat') {
           return {
             tpc: parseInt(sampleRows[0].tpc) || 5000,
@@ -476,7 +488,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             tds: null,
             remarks: sampleRows[0].comments,
             tested_by: profile?.id,
-            tested_at: new Date().toISOString(),
+            tested_at: reportDate,
           };
         } else if (reportType === 'air') {
           return {
@@ -490,7 +502,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             tds: null,
             remarks: airQualityData.remarks,
             tested_by: profile?.id,
-            tested_at: new Date().toISOString(),
+            tested_at: reportDate,
             custom_data: JSON.stringify(airQualityData),
           };
         } else if (reportType === 'water') {
@@ -505,7 +517,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             tds: waterQualityData.samplingPoints[0]?.tds ? parseFloat(waterQualityData.samplingPoints[0].tds) : null,
             remarks: waterQualityData.remarks,
             tested_by: profile?.id,
-            tested_at: new Date().toISOString(),
+            tested_at: reportDate,
             custom_data: JSON.stringify(waterQualityData),
           };
         } else if (reportType === 'foodhandler') {
@@ -520,7 +532,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             tds: null,
             remarks: 'Food Handler Testing Report',
             tested_by: profile?.id,
-            tested_at: new Date().toISOString(),
+            tested_at: reportDate,
             custom_data: JSON.stringify(foodHandlerData),
           };
         } else if (reportType === 'foodsurface') {
@@ -535,7 +547,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             tds: null,
             remarks: 'Food Contact Surface Testing Report',
             tested_by: profile?.id,
-            tested_at: new Date().toISOString(),
+            tested_at: reportDate,
             custom_data: JSON.stringify(foodSurfaceData),
           };
         } else if (reportType === 'deboning') {
@@ -550,7 +562,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             tds: null,
             remarks: 'Deboning Food Handler Testing Report',
             tested_by: profile?.id,
-            tested_at: new Date().toISOString(),
+            tested_at: reportDate,
             custom_data: JSON.stringify(deboningData),
           };
         }
