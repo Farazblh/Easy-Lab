@@ -365,14 +365,16 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       }
     }
 
-    if (!profile?.id) {
-      alert('User not logged in');
-      return;
-    }
-
     setLoading(true);
 
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        alert('User not logged in. Please login again.');
+        return;
+      }
+
       const sampleCode = reportType === 'meat'
         ? (sampleRows[0].supplierCode || `SAMPLE-${Date.now()}`)
         : reportType === 'air' ? (airQualityData.sampleCode || `AIR-${Date.now()}`)
@@ -451,7 +453,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           .from('samples')
           .insert({
             sample_code: sampleCode,
-            user_id: profile.id,
+            user_id: user.id,
             sample_type: getSampleTypeTitle(),
             source: getSourceName(),
             collection_date: getCollectionDate(),
@@ -487,7 +489,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: sampleRows[0].comments,
-            tested_by: profile?.id,
+            tested_by: user.id,
             tested_at: reportDate,
           };
         } else if (reportType === 'air') {
@@ -501,7 +503,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: airQualityData.remarks,
-            tested_by: profile?.id,
+            tested_by: user.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(airQualityData),
           };
@@ -516,7 +518,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: waterQualityData.samplingPoints[0]?.ph ? parseFloat(waterQualityData.samplingPoints[0].ph) : null,
             tds: waterQualityData.samplingPoints[0]?.tds ? parseFloat(waterQualityData.samplingPoints[0].tds) : null,
             remarks: waterQualityData.remarks,
-            tested_by: profile?.id,
+            tested_by: user.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(waterQualityData),
           };
@@ -531,7 +533,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Food Handler Testing Report',
-            tested_by: profile?.id,
+            tested_by: user.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(foodHandlerData),
           };
@@ -546,7 +548,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Food Contact Surface Testing Report',
-            tested_by: profile?.id,
+            tested_by: user.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(foodSurfaceData),
           };
@@ -561,7 +563,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Deboning Food Handler Testing Report',
-            tested_by: profile?.id,
+            tested_by: user.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(deboningData),
           };
@@ -599,9 +601,9 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         .from('reports')
         .insert({
           sample_id: sampleData.id,
-          user_id: profile.id,
+          user_id: user.id,
           pdf_url: `${sampleCode}_Report_${new Date().toISOString().split('T')[0]}.pdf`,
-          generated_by: profile.id,
+          generated_by: user.id,
         })
         .select(`
           *,
