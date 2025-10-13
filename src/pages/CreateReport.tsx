@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { FileCheck, Plus, Trash2, AlertCircle, CheckCircle, Save, FileDown, Printer } from 'lucide-react';
+import { FileDown, Printer, Plus, Trash2, FileCheck } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 
 type SampleRow = {
@@ -28,10 +28,13 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
   const [loading, setLoading] = useState(false);
   const [reportTitle, setReportTitle] = useState('Frozen Beef Meat');
   const [supplierName, setSupplierName] = useState('');
+  const [totalSamples, setTotalSamples] = useState('1 Beef Meat Sample');
+  const [issueNo, setIssueNo] = useState('02');
+  const [revNo, setRevNo] = useState('01');
   const [meatStatus, setMeatStatus] = useState('COMPLETED');
   const [generatedReport, setGeneratedReport] = useState<any>(null);
+  const [reportId, setReportId] = useState<string | null>(null);
   const [reportType, setReportType] = useState<'meat' | 'air' | 'water' | 'foodhandler' | 'foodsurface' | 'deboning'>('meat');
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const [airQualityData, setAirQualityData] = useState({
     sampleType: 'Air Quality Monitoring',
@@ -40,6 +43,8 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
     reportDate: '',
     supplier: '',
     status: 'COMPLETED',
+    issueNo: '02',
+    revNo: '01',
     activity: 'Monitoring of Air Bioburden Setting Agar Plate Technique',
     sampleTechnique: 'Settle Plate Technique',
     departments: [
@@ -57,6 +62,8 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
     reportDate: '',
     supplier: '',
     status: 'COMPLETED',
+    issueNo: '02',
+    revNo: '01',
     activity: 'Physical, Chemical, and Microbiological Analysis of water quality',
     sampleCollectedIn: 'Sterile Flasks',
     samplingPoints: [
@@ -74,6 +81,8 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
     reportDate: '',
     supplier: '',
     status: 'COMPLETED',
+    issueNo: '02',
+    revNo: '01',
     activity: 'Microbiological Testing of Food Handling Person\'s Hands that comes in contact with Food.',
     department: 'Beef Plant 1',
     samplingTechnique: 'Finger Print Technique/ Swab Technique',
@@ -81,6 +90,13 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       { sNo: '1', area: 'Cattle Box Area', name: 'rizwan', apc: '16', coliform: 'NIL' },
       { sNo: '2', area: 'Fore Hook Cutting Lift 1', name: 'adil', apc: '12', coliform: 'NIL' },
       { sNo: '3', area: 'Hind Hook Cutting Lift 2', name: 'hamid', apc: '14', coliform: 'NIL' },
+      { sNo: '4', area: 'Skin Removing Lift 3', name: 'iftikhar', apc: '18', coliform: 'NIL' },
+      { sNo: '5', area: 'Dehiding Area Lift 4', name: 'iqbal', apc: '28', coliform: 'NIL' },
+      { sNo: '6', area: 'Dehiding Area Lift 5', name: 'irtiza', apc: '32', coliform: 'NIL' },
+      { sNo: '7', area: 'Evisceration Area Lift 6', name: 'ahsan', apc: '17', coliform: 'NIL' },
+      { sNo: '8', area: 'Evisceration Area', name: 'rehan', apc: '22', coliform: 'NIL' },
+      { sNo: '9', area: 'Splitting Cutter Area Lift 7', name: 'shahid', apc: '25', coliform: 'NIL' },
+      { sNo: '10', area: 'Brisket Saw Area Lift 8', name: 'ali', apc: '35', coliform: 'NIL' },
     ],
   });
 
@@ -91,13 +107,23 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
     reportDate: '',
     supplier: '',
     status: 'COMPLETED',
-    activity: 'Microbiological Testing of Food Contact Surfaces',
+    issueNo: '02',
+    revNo: '01',
+    activity: 'Microbiological Testing of Food Handling Person\'s Hands that comes in contact with Food.',
     department: 'Beef Plant 1',
-    samplingTechnique: 'Swab Technique',
+    samplingTechnique: 'Finger Print Technique/ Swab Technique',
     surfaces: [
       { sNo: '1', area: 'Cattle Box Area', apc: '18', coliform: 'Nil' },
       { sNo: '2', area: 'Fore Hook Cutting Lift 1', apc: '22', coliform: 'Nil' },
       { sNo: '3', area: 'Hind Hook Cutting Lift 2', apc: '23', coliform: 'Nil' },
+      { sNo: '4', area: 'Skin Removing Lift 3', apc: '16', coliform: 'Nil' },
+      { sNo: '5', area: 'Dehiding Area Lift 4', apc: '31', coliform: 'Nil' },
+      { sNo: '6', area: 'Dehiding Area Lift 5', apc: '32', coliform: 'Nil' },
+      { sNo: '7', area: 'Evisceration Area Lift 6', apc: '18', coliform: 'Nil' },
+      { sNo: '8', area: 'Evisceration Area', apc: '19', coliform: 'Nil' },
+      { sNo: '9', area: 'Splitting Cutter Area Lift 7', apc: '12', coliform: 'Nil' },
+      { sNo: '10', area: 'Brisket Saw Area Lift 8', apc: '22', coliform: 'Nil' },
+      { sNo: '11', area: 'Fat Trimming Area', apc: '21', coliform: 'Nil' },
     ],
   });
 
@@ -108,13 +134,24 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
     reportDate: '',
     supplier: '',
     status: 'COMPLETED',
-    activity: 'Microbiological Testing of Deboning Food Handlers',
+    issueNo: '02',
+    revNo: '01',
+    activity: 'Microbiological Testing of Food Handling Person\'s Hands that comes in contact with Food.',
     department: 'Deboning',
     samplingTechnique: 'Finger Print Technique/ Swab Technique',
     workers: [
       { sNo: '1', area: 'Deboning Tray # 1', name: 'shameer', apc: '22', coliform: 'NIL' },
       { sNo: '2', area: 'Deboning Tray # 2', name: 'naveed', apc: '15', coliform: 'NIL' },
       { sNo: '3', area: 'Deboning Tray # 3', name: 'ahsan', apc: '19', coliform: 'NIL' },
+      { sNo: '4', area: 'Deboning Tray # 4', name: 'ghulam nabi', apc: '32', coliform: 'NIL' },
+      { sNo: '5', area: 'Deboning Tray # 5', name: 'zakir', apc: '23', coliform: 'NIL' },
+      { sNo: '6', area: 'Deboning Tray # 6', name: 'saadullah', apc: '24', coliform: 'NIL' },
+      { sNo: '7', area: 'Deboning Tray # 7', name: 'abrar', apc: '28', coliform: 'NIL' },
+      { sNo: '8', area: 'Deboning Tray # 8', name: 'khan', apc: '32', coliform: 'NIL' },
+      { sNo: '9', area: 'Deboning Tray # 9', name: 'waqas', apc: '30', coliform: 'NIL' },
+      { sNo: '5', area: 'Deboning Tray # 10', name: 'rae', apc: '34', coliform: 'NIL' },
+      { sNo: '6', area: 'Deboning Tray # 11', name: 'salah', apc: '15', coliform: 'NIL' },
+      { sNo: '7', area: 'Boneless Meat Care Packing Trays (Random)', name: 'saadullah', apc: '22', coliform: 'NIL' },
     ],
   });
 
@@ -266,14 +303,17 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         alert('Please enter supplier name');
         return;
       }
+
       if (!sampleRows[0].supplierCode || !sampleRows[0].supplierCode.trim()) {
         alert('Please enter supplier code');
         return;
       }
+
       if (!sampleRows[0].collectionDate) {
         alert('Please enter collection date');
         return;
       }
+
       if (!sampleRows[0].reportDate) {
         alert('Please enter report date');
         return;
@@ -325,16 +365,14 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       }
     }
 
+    if (!profile?.id) {
+      alert('User not logged in');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-
-      if (!user) {
-        alert('User not logged in. Please login again.');
-        return;
-      }
-
       const sampleCode = reportType === 'meat'
         ? (sampleRows[0].supplierCode || `SAMPLE-${Date.now()}`)
         : reportType === 'air' ? (airQualityData.sampleCode || `AIR-${Date.now()}`)
@@ -413,7 +451,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           .from('samples')
           .insert({
             sample_code: sampleCode,
-            user_id: user.id,
+            user_id: profile.id,
             sample_type: getSampleTypeTitle(),
             source: getSourceName(),
             collection_date: getCollectionDate(),
@@ -449,7 +487,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: sampleRows[0].comments,
-            tested_by: user.id,
+            tested_by: profile?.id,
             tested_at: reportDate,
           };
         } else if (reportType === 'air') {
@@ -463,7 +501,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: airQualityData.remarks,
-            tested_by: user.id,
+            tested_by: profile?.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(airQualityData),
           };
@@ -478,7 +516,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: waterQualityData.samplingPoints[0]?.ph ? parseFloat(waterQualityData.samplingPoints[0].ph) : null,
             tds: waterQualityData.samplingPoints[0]?.tds ? parseFloat(waterQualityData.samplingPoints[0].tds) : null,
             remarks: waterQualityData.remarks,
-            tested_by: user.id,
+            tested_by: profile?.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(waterQualityData),
           };
@@ -493,7 +531,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Food Handler Testing Report',
-            tested_by: user.id,
+            tested_by: profile?.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(foodHandlerData),
           };
@@ -508,7 +546,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Food Contact Surface Testing Report',
-            tested_by: user.id,
+            tested_by: profile?.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(foodSurfaceData),
           };
@@ -523,7 +561,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ph: null,
             tds: null,
             remarks: 'Deboning Food Handler Testing Report',
-            tested_by: user.id,
+            tested_by: profile?.id,
             tested_at: reportDate,
             custom_data: JSON.stringify(deboningData),
           };
@@ -561,9 +599,9 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         .from('reports')
         .insert({
           sample_id: sampleData.id,
-          user_id: user.id,
+          user_id: profile.id,
           pdf_url: `${sampleCode}_Report_${new Date().toISOString().split('T')[0]}.pdf`,
-          generated_by: user.id,
+          generated_by: profile.id,
         })
         .select(`
           *,
@@ -589,16 +627,13 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       };
 
       setGeneratedReport(enrichedReportData);
-      setShowSuccess(true);
-
-      setTimeout(() => {
-        setShowSuccess(false);
-      }, 3000);
+      setReportId(reportData.id);
+      alert('Report generated successfully! Redirecting to Reports section...');
 
       if (onReportGenerated) {
         setTimeout(() => {
           onReportGenerated();
-        }, 2000);
+        }, 1500);
       }
     } catch (error: any) {
       alert('Error generating report: ' + error.message);
@@ -687,389 +722,529 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
     }
   };
 
-  const reportTypes = [
-    { id: 'meat', label: 'Meat Report', color: 'red' },
-    { id: 'air', label: 'Air Quality', color: 'blue' },
-    { id: 'water', label: 'Water Quality', color: 'cyan' },
-    { id: 'foodhandler', label: 'Food Handler', color: 'green' },
-    { id: 'foodsurface', label: 'Food Surface', color: 'orange' },
-    { id: 'deboning', label: 'Deboning', color: 'purple' },
-  ];
-
   return (
     <div className="space-y-6">
-      {showSuccess && (
-        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 animate-fade-in">
-          <CheckCircle className="w-6 h-6" />
-          <div>
-            <p className="font-semibold">Report Generated Successfully!</p>
-            <p className="text-sm opacity-90">Redirecting to Reports section...</p>
-          </div>
-        </div>
-      )}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Create Microbiological Testing Report</h2>
 
-      <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg border border-blue-100 p-8">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="bg-blue-600 p-3 rounded-xl">
-            <FileCheck className="w-8 h-8 text-white" />
-          </div>
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900">Create Microbiological Report</h2>
-            <p className="text-gray-600 mt-1">Generate comprehensive laboratory testing reports</p>
-          </div>
-        </div>
-
-        <div className="mb-8">
-          <label className="block text-sm font-semibold text-gray-700 mb-3">Select Report Type</label>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {reportTypes.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setReportType(type.id as any)}
-                disabled={!!generatedReport}
-                className={`px-4 py-3 rounded-xl font-semibold transition-all duration-200 text-sm ${
-                  reportType === type.id
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/50 scale-105'
-                    : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
-              >
-                {type.label}
-              </button>
-            ))}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Report Type</label>
+          <div className="flex gap-3 flex-wrap">
+            <button
+              onClick={() => setReportType('meat')}
+              className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
+                reportType === 'meat'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+              disabled={!!generatedReport}
+            >
+              Meat Report
+            </button>
+            <button
+              onClick={() => setReportType('air')}
+              className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
+                reportType === 'air'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+              disabled={!!generatedReport}
+            >
+              Air Quality
+            </button>
+            <button
+              onClick={() => setReportType('water')}
+              className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
+                reportType === 'water'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+              disabled={!!generatedReport}
+            >
+              Water Quality
+            </button>
+            <button
+              onClick={() => setReportType('foodhandler')}
+              className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
+                reportType === 'foodhandler'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+              disabled={!!generatedReport}
+            >
+              Food Handler Testing
+            </button>
+            <button
+              onClick={() => setReportType('foodsurface')}
+              className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
+                reportType === 'foodsurface'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+              disabled={!!generatedReport}
+            >
+              Food Surface Testing
+            </button>
+            <button
+              onClick={() => setReportType('deboning')}
+              className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
+                reportType === 'deboning'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+              disabled={!!generatedReport}
+            >
+              Deboning Testing
+            </button>
           </div>
         </div>
 
         {generatedReport && (
-          <div className="mb-6 p-5 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl">
-            <div className="flex items-start gap-3">
-              <CheckCircle className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
-              <div className="flex-1">
-                <h3 className="font-bold text-green-800 text-lg">Report Generated Successfully!</h3>
-                <p className="text-sm text-green-700 mt-1">
-                  Sample: <span className="font-semibold">{generatedReport.sample.sample_code}</span> |
-                  Supplier: <span className="font-semibold">{generatedReport.sample.source}</span>
-                </p>
-                <div className="flex gap-3 mt-4">
-                  <button
-                    onClick={() => handleAction('download')}
-                    disabled={loading}
-                    className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 shadow-md"
-                  >
-                    <FileDown className="w-4 h-4" />
-                    Download PDF
-                  </button>
-                  <button
-                    onClick={() => handleAction('print')}
-                    disabled={loading}
-                    className="flex items-center gap-2 bg-gray-700 text-white px-5 py-2.5 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 shadow-md"
-                  >
-                    <Printer className="w-4 h-4" />
-                    Print
-                  </button>
-                </div>
-              </div>
+          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2 text-green-800">
+              <FileCheck className="w-5 h-5" />
+              <span className="font-semibold">Report Generated Successfully!</span>
             </div>
+            <p className="text-sm text-green-700 mt-1">
+              Sample: {generatedReport.sample.sample_code} | Supplier: {generatedReport.sample.source}
+            </p>
           </div>
         )}
 
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Sample Type <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={
-                  reportType === 'meat' ? reportTitle :
-                  reportType === 'air' ? airQualityData.sampleType :
-                  reportType === 'water' ? waterQualityData.sampleType :
-                  reportType === 'foodhandler' ? foodHandlerData.sampleType :
-                  reportType === 'foodsurface' ? foodSurfaceData.sampleType :
-                  deboningData.sampleType
-                }
-                onChange={(e) => {
-                  if (reportType === 'meat') setReportTitle(e.target.value);
-                  else if (reportType === 'air') setAirQualityData({ ...airQualityData, sampleType: e.target.value });
-                  else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, sampleType: e.target.value });
-                  else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, sampleType: e.target.value });
-                  else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, sampleType: e.target.value });
-                  else setDeboningData({ ...deboningData, sampleType: e.target.value });
-                }}
-                className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Enter sample type"
-                disabled={!!generatedReport}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Sample Code <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={
-                  reportType === 'meat' ? (sampleRows[0]?.supplierCode || '') :
-                  reportType === 'air' ? airQualityData.sampleCode :
-                  reportType === 'water' ? waterQualityData.sampleCode :
-                  reportType === 'foodhandler' ? foodHandlerData.sampleCode :
-                  reportType === 'foodsurface' ? foodSurfaceData.sampleCode :
-                  deboningData.sampleCode
-                }
-                onChange={(e) => {
-                  if (reportType === 'meat') updateRow(sampleRows[0].id, 'supplierCode', e.target.value);
-                  else if (reportType === 'air') setAirQualityData({ ...airQualityData, sampleCode: e.target.value });
-                  else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, sampleCode: e.target.value });
-                  else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, sampleCode: e.target.value });
-                  else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, sampleCode: e.target.value });
-                  else setDeboningData({ ...deboningData, sampleCode: e.target.value });
-                }}
-                className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Enter sample code"
-                disabled={!!generatedReport}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Collection Date <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="date"
-                value={
-                  reportType === 'meat' ? (sampleRows[0]?.collectionDate || '') :
-                  reportType === 'air' ? airQualityData.collectionDate :
-                  reportType === 'water' ? waterQualityData.collectionDate :
-                  reportType === 'foodhandler' ? foodHandlerData.collectionDate :
-                  reportType === 'foodsurface' ? foodSurfaceData.collectionDate :
-                  deboningData.collectionDate
-                }
-                onChange={(e) => {
-                  if (reportType === 'meat') updateRow(sampleRows[0].id, 'collectionDate', e.target.value);
-                  else if (reportType === 'air') setAirQualityData({ ...airQualityData, collectionDate: e.target.value });
-                  else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, collectionDate: e.target.value });
-                  else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, collectionDate: e.target.value });
-                  else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, collectionDate: e.target.value });
-                  else setDeboningData({ ...deboningData, collectionDate: e.target.value });
-                }}
-                className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                disabled={!!generatedReport}
-              />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Sample Type
+            </label>
+            <input
+              type="text"
+              value={
+                reportType === 'meat' ? reportTitle :
+                reportType === 'air' ? airQualityData.sampleType :
+                reportType === 'water' ? waterQualityData.sampleType :
+                reportType === 'foodhandler' ? foodHandlerData.sampleType :
+                reportType === 'foodsurface' ? foodSurfaceData.sampleType :
+                deboningData.sampleType
+              }
+              onChange={(e) => {
+                if (reportType === 'meat') setReportTitle(e.target.value);
+                else if (reportType === 'air') setAirQualityData({ ...airQualityData, sampleType: e.target.value });
+                else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, sampleType: e.target.value });
+                else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, sampleType: e.target.value });
+                else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, sampleType: e.target.value });
+                else setDeboningData({ ...deboningData, sampleType: e.target.value });
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="e.g., Frozen Beef Meat"
+              disabled={!!generatedReport}
+            />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Report Date <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="date"
-                value={
-                  reportType === 'meat' ? (sampleRows[0]?.reportDate || '') :
-                  reportType === 'air' ? airQualityData.reportDate :
-                  reportType === 'water' ? waterQualityData.reportDate :
-                  reportType === 'foodhandler' ? foodHandlerData.reportDate :
-                  reportType === 'foodsurface' ? foodSurfaceData.reportDate :
-                  deboningData.reportDate
-                }
-                onChange={(e) => {
-                  if (reportType === 'meat') updateRow(sampleRows[0].id, 'reportDate', e.target.value);
-                  else if (reportType === 'air') setAirQualityData({ ...airQualityData, reportDate: e.target.value });
-                  else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, reportDate: e.target.value });
-                  else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, reportDate: e.target.value });
-                  else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, reportDate: e.target.value });
-                  else setDeboningData({ ...deboningData, reportDate: e.target.value });
-                }}
-                className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                disabled={!!generatedReport}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Supplier <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={
-                  reportType === 'meat' ? supplierName :
-                  reportType === 'air' ? airQualityData.supplier :
-                  reportType === 'water' ? waterQualityData.supplier :
-                  reportType === 'foodhandler' ? foodHandlerData.supplier :
-                  reportType === 'foodsurface' ? foodSurfaceData.supplier :
-                  deboningData.supplier
-                }
-                onChange={(e) => {
-                  if (reportType === 'meat') setSupplierName(e.target.value);
-                  else if (reportType === 'air') setAirQualityData({ ...airQualityData, supplier: e.target.value });
-                  else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, supplier: e.target.value });
-                  else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, supplier: e.target.value });
-                  else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, supplier: e.target.value });
-                  else setDeboningData({ ...deboningData, supplier: e.target.value });
-                }}
-                className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Enter supplier name"
-                disabled={!!generatedReport}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Status
-              </label>
-              <select
-                value={
-                  reportType === 'meat' ? meatStatus :
-                  reportType === 'air' ? airQualityData.status :
-                  reportType === 'water' ? waterQualityData.status :
-                  reportType === 'foodhandler' ? foodHandlerData.status :
-                  reportType === 'foodsurface' ? foodSurfaceData.status :
-                  deboningData.status
-                }
-                onChange={(e) => {
-                  if (reportType === 'meat') setMeatStatus(e.target.value);
-                  else if (reportType === 'air') setAirQualityData({ ...airQualityData, status: e.target.value });
-                  else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, status: e.target.value });
-                  else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, status: e.target.value });
-                  else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, status: e.target.value });
-                  else if (reportType === 'deboning') setDeboningData({ ...deboningData, status: e.target.value });
-                }}
-                className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                disabled={!!generatedReport}
-              >
-                <option value="COMPLETED">COMPLETED</option>
-                <option value="PENDING">PENDING</option>
-                <option value="IN PROGRESS">IN PROGRESS</option>
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Sample Code
+            </label>
+            <input
+              type="text"
+              value={
+                reportType === 'meat' ? (sampleRows[0]?.supplierCode || '') :
+                reportType === 'air' ? airQualityData.sampleCode :
+                reportType === 'water' ? waterQualityData.sampleCode :
+                reportType === 'foodhandler' ? foodHandlerData.sampleCode :
+                reportType === 'foodsurface' ? foodSurfaceData.sampleCode :
+                deboningData.sampleCode
+              }
+              onChange={(e) => {
+                if (reportType === 'meat') updateRow(sampleRows[0].id, 'supplierCode', e.target.value);
+                else if (reportType === 'air') setAirQualityData({ ...airQualityData, sampleCode: e.target.value });
+                else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, sampleCode: e.target.value });
+                else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, sampleCode: e.target.value });
+                else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, sampleCode: e.target.value });
+                else setDeboningData({ ...deboningData, sampleCode: e.target.value });
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="e.g., 876"
+              disabled={!!generatedReport}
+            />
           </div>
 
-          <div className="border-t-2 border-gray-200 pt-6 mt-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-gray-900">
-                {reportType === 'meat' ? 'Meat Sample Data' :
-                 reportType === 'air' ? 'Air Quality Data' :
-                 reportType === 'water' ? 'Water Quality Data' :
-                 reportType === 'foodhandler' ? 'Food Handler Data' :
-                 reportType === 'foodsurface' ? 'Food Surface Data' :
-                 'Deboning Data'}
-              </h3>
-              {!generatedReport && (
-                <button
-                  onClick={() => {
-                    if (reportType === 'meat') addRow();
-                    else if (reportType === 'air') addAirQualityRow();
-                    else if (reportType === 'water') addWaterQualityRow();
-                    else if (reportType === 'foodhandler') addFoodHandlerRow();
-                    else if (reportType === 'foodsurface') addFoodSurfaceRow();
-                    else if (reportType === 'deboning') addDeboningRow();
-                  }}
-                  className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors shadow-md"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Row
-                </button>
-              )}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Collection Date
+            </label>
+            <input
+              type="date"
+              value={
+                reportType === 'meat' ? (sampleRows[0]?.collectionDate || '') :
+                reportType === 'air' ? airQualityData.collectionDate :
+                reportType === 'water' ? waterQualityData.collectionDate :
+                reportType === 'foodhandler' ? foodHandlerData.collectionDate :
+                reportType === 'foodsurface' ? foodSurfaceData.collectionDate :
+                deboningData.collectionDate
+              }
+              onChange={(e) => {
+                if (reportType === 'meat') updateRow(sampleRows[0].id, 'collectionDate', e.target.value);
+                else if (reportType === 'air') setAirQualityData({ ...airQualityData, collectionDate: e.target.value });
+                else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, collectionDate: e.target.value });
+                else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, collectionDate: e.target.value });
+                else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, collectionDate: e.target.value });
+                else setDeboningData({ ...deboningData, collectionDate: e.target.value });
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              disabled={!!generatedReport}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Report Date
+            </label>
+            <input
+              type="date"
+              value={
+                reportType === 'meat' ? (sampleRows[0]?.reportDate || '') :
+                reportType === 'air' ? airQualityData.reportDate :
+                reportType === 'water' ? waterQualityData.reportDate :
+                reportType === 'foodhandler' ? foodHandlerData.reportDate :
+                reportType === 'foodsurface' ? foodSurfaceData.reportDate :
+                deboningData.reportDate
+              }
+              onChange={(e) => {
+                if (reportType === 'meat') updateRow(sampleRows[0].id, 'reportDate', e.target.value);
+                else if (reportType === 'air') setAirQualityData({ ...airQualityData, reportDate: e.target.value });
+                else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, reportDate: e.target.value });
+                else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, reportDate: e.target.value });
+                else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, reportDate: e.target.value });
+                else setDeboningData({ ...deboningData, reportDate: e.target.value });
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              disabled={!!generatedReport}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Supplier
+            </label>
+            <input
+              type="text"
+              value={
+                reportType === 'meat' ? supplierName :
+                reportType === 'air' ? airQualityData.supplier :
+                reportType === 'water' ? waterQualityData.supplier :
+                reportType === 'foodhandler' ? foodHandlerData.supplier :
+                reportType === 'foodsurface' ? foodSurfaceData.supplier :
+                deboningData.supplier
+              }
+              onChange={(e) => {
+                if (reportType === 'meat') setSupplierName(e.target.value);
+                else if (reportType === 'air') setAirQualityData({ ...airQualityData, supplier: e.target.value });
+                else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, supplier: e.target.value });
+                else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, supplier: e.target.value });
+                else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, supplier: e.target.value });
+                else setDeboningData({ ...deboningData, supplier: e.target.value });
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter supplier"
+              disabled={!!generatedReport}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Status
+            </label>
+            <select
+              value={
+                reportType === 'meat' ? meatStatus :
+                reportType === 'air' ? airQualityData.status :
+                reportType === 'water' ? waterQualityData.status :
+                reportType === 'foodhandler' ? foodHandlerData.status :
+                reportType === 'foodsurface' ? foodSurfaceData.status :
+                deboningData.status
+              }
+              onChange={(e) => {
+                if (reportType === 'meat') setMeatStatus(e.target.value);
+                else if (reportType === 'air') setAirQualityData({ ...airQualityData, status: e.target.value });
+                else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, status: e.target.value });
+                else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, status: e.target.value });
+                else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, status: e.target.value });
+                else if (reportType === 'deboning') setDeboningData({ ...deboningData, status: e.target.value });
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              disabled={!!generatedReport}
+            >
+              <option value="COMPLETED">COMPLETED</option>
+              <option value="PENDING">PENDING</option>
+              <option value="IN PROGRESS">IN PROGRESS</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">
+            {reportType === 'meat' ? 'Meat Report' :
+             reportType === 'air' ? 'Air Quality Report' :
+             reportType === 'water' ? 'Water Quality Report' :
+             reportType === 'foodhandler' ? 'Food Handler Testing Report' :
+             reportType === 'foodsurface' ? 'Food Contact Surface Testing Report' :
+             'Deboning Food Handler Testing Report'}
+          </h3>
+          {!generatedReport && (
+            <button
+              onClick={() => {
+                if (reportType === 'meat') addRow();
+                else if (reportType === 'air') addAirQualityRow();
+                else if (reportType === 'water') addWaterQualityRow();
+                else if (reportType === 'foodhandler') addFoodHandlerRow();
+                else if (reportType === 'foodsurface') addFoodSurfaceRow();
+                else if (reportType === 'deboning') addDeboningRow();
+              }}
+              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Add Row
+            </button>
+          )}
+        </div>
+
+        {reportType === 'meat' && (
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full border-collapse border border-gray-300">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="border border-gray-300 px-2 py-2 text-xs">Supplier Code</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">Collection Date</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">Report Date</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">Sample No</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">TPC (cfu/g)</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">S.aureus</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">Coliforms</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">E.coli O157</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">Salmonella</th>
+                <th className="border border-gray-300 px-2 py-2 text-xs">Comments</th>
+                {!generatedReport && <th className="border border-gray-300 px-2 py-2 text-xs">Action</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {sampleRows.map((row) => (
+                <tr key={row.id}>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.supplierCode}
+                      onChange={(e) => updateRow(row.id, 'supplierCode', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="date"
+                      value={row.collectionDate}
+                      onChange={(e) => updateRow(row.id, 'collectionDate', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="date"
+                      value={row.reportDate}
+                      onChange={(e) => updateRow(row.id, 'reportDate', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.sampleNo}
+                      onChange={(e) => updateRow(row.id, 'sampleNo', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.tpc}
+                      onChange={(e) => updateRow(row.id, 'tpc', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.sAureus}
+                      onChange={(e) => updateRow(row.id, 'sAureus', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.coliforms}
+                      onChange={(e) => updateRow(row.id, 'coliforms', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.ecoliO157}
+                      onChange={(e) => updateRow(row.id, 'ecoliO157', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.salmonella}
+                      onChange={(e) => updateRow(row.id, 'salmonella', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-1">
+                    <input
+                      type="text"
+                      value={row.comments}
+                      onChange={(e) => updateRow(row.id, 'comments', e.target.value)}
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      disabled={!!generatedReport}
+                    />
+                  </td>
+                  {!generatedReport && (
+                    <td className="border border-gray-300 p-1 text-center">
+                      {sampleRows.length > 1 && (
+                        <button
+                          onClick={() => removeRow(row.id)}
+                          className="text-red-600 hover:text-red-800"
+                          title="Remove row"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        )}
+
+        {reportType === 'air' && (
+          <div className="space-y-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Activity</label>
+                <input
+                  type="text"
+                  value={airQualityData.activity}
+                  onChange={(e) => setAirQualityData({...airQualityData, activity: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Sample Technique</label>
+                <input
+                  type="text"
+                  value={airQualityData.sampleTechnique}
+                  onChange={(e) => setAirQualityData({...airQualityData, sampleTechnique: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
             </div>
 
-            {reportType === 'meat' && (
-              <div className="overflow-x-auto rounded-lg border-2 border-gray-200">
-                <table className="w-full border-collapse">
-                  <thead className="bg-gradient-to-r from-gray-100 to-gray-50">
-                    <tr>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">Sample No</th>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">Species</th>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">TPC (cfu/g)</th>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">S.aureus</th>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">Coliforms</th>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">E.coli O157</th>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">Salmonella</th>
-                      <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">Comments</th>
-                      {!generatedReport && <th className="border border-gray-300 px-3 py-3 text-xs font-semibold text-gray-700">Action</th>}
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white">
-                    {sampleRows.map((row) => (
-                      <tr key={row.id} className="hover:bg-gray-50">
-                        <td className="border border-gray-300 p-1">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-gray-300">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">S.No.</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Department</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Plate No 1<br/>No of Colonies</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Plate No 2<br/>No of Colonies</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Plate No 3<br/>No of Colonies</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Average<br/>No of Colonies</th>
+                    {!generatedReport && <th className="border border-gray-300 px-2 py-2 text-sm">Actions</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {airQualityData.departments.map((dept, idx) => {
+                    const avg = Math.round((parseInt(dept.plate1) + parseInt(dept.plate2) + parseInt(dept.plate3)) / 3);
+                    return (
+                      <tr key={idx}>
+                        <td className="border border-gray-300 p-2 text-center">{dept.sNo}</td>
+                        <td className="border border-gray-300 p-2">
                           <input
                             type="text"
-                            value={row.sampleNo}
-                            onChange={(e) => updateRow(row.id, 'sampleNo', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                            value={dept.name}
+                            onChange={(e) => {
+                              const newDepts = [...airQualityData.departments];
+                              newDepts[idx].name = e.target.value;
+                              setAirQualityData({...airQualityData, departments: newDepts});
+                            }}
+                            className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
                             disabled={!!generatedReport}
                           />
                         </td>
-                        <td className="border border-gray-300 p-1">
+                        <td className="border border-gray-300 p-2">
                           <input
                             type="text"
-                            value={row.species}
-                            onChange={(e) => updateRow(row.id, 'species', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                            value={dept.plate1}
+                            onChange={(e) => {
+                              const newDepts = [...airQualityData.departments];
+                              newDepts[idx].plate1 = e.target.value;
+                              setAirQualityData({...airQualityData, departments: newDepts});
+                            }}
+                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
                             disabled={!!generatedReport}
                           />
                         </td>
-                        <td className="border border-gray-300 p-1">
+                        <td className="border border-gray-300 p-2">
                           <input
                             type="text"
-                            value={row.tpc}
-                            onChange={(e) => updateRow(row.id, 'tpc', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                            value={dept.plate2}
+                            onChange={(e) => {
+                              const newDepts = [...airQualityData.departments];
+                              newDepts[idx].plate2 = e.target.value;
+                              setAirQualityData({...airQualityData, departments: newDepts});
+                            }}
+                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
                             disabled={!!generatedReport}
                           />
                         </td>
-                        <td className="border border-gray-300 p-1">
+                        <td className="border border-gray-300 p-2">
                           <input
                             type="text"
-                            value={row.sAureus}
-                            onChange={(e) => updateRow(row.id, 'sAureus', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
+                            value={dept.plate3}
+                            onChange={(e) => {
+                              const newDepts = [...airQualityData.departments];
+                              newDepts[idx].plate3 = e.target.value;
+                              setAirQualityData({...airQualityData, departments: newDepts});
+                            }}
+                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
                             disabled={!!generatedReport}
                           />
                         </td>
-                        <td className="border border-gray-300 p-1">
-                          <input
-                            type="text"
-                            value={row.coliforms}
-                            onChange={(e) => updateRow(row.id, 'coliforms', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
-                            disabled={!!generatedReport}
-                          />
-                        </td>
-                        <td className="border border-gray-300 p-1">
-                          <input
-                            type="text"
-                            value={row.ecoliO157}
-                            onChange={(e) => updateRow(row.id, 'ecoliO157', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
-                            disabled={!!generatedReport}
-                          />
-                        </td>
-                        <td className="border border-gray-300 p-1">
-                          <input
-                            type="text"
-                            value={row.salmonella}
-                            onChange={(e) => updateRow(row.id, 'salmonella', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
-                            disabled={!!generatedReport}
-                          />
-                        </td>
-                        <td className="border border-gray-300 p-1">
-                          <input
-                            type="text"
-                            value={row.comments}
-                            onChange={(e) => updateRow(row.id, 'comments', e.target.value)}
-                            className="w-full px-2 py-1.5 text-sm border-0 focus:ring-2 focus:ring-blue-500 rounded"
-                            disabled={!!generatedReport}
-                          />
-                        </td>
+                        <td className="border border-gray-300 p-2 text-center font-semibold">{avg}</td>
                         {!generatedReport && (
                           <td className="border border-gray-300 p-1 text-center">
-                            {sampleRows.length > 1 && (
+                            {airQualityData.departments.length > 1 && (
                               <button
-                                onClick={() => removeRow(row.id)}
-                                className="text-red-600 hover:text-red-800 p-1 rounded hover:bg-red-50 transition-colors"
+                                onClick={() => removeAirQualityRow(idx)}
+                                className="text-red-600 hover:text-red-800"
                                 title="Remove row"
                               >
                                 <Trash2 className="w-4 h-4" />
@@ -1078,54 +1253,592 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                           </td>
                         )}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
 
-          <div className="mt-8 flex gap-4 justify-end">
-            <button
-              onClick={handleGenerateReport}
-              disabled={loading || !!generatedReport}
-              className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-8 py-3.5 rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-200 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed shadow-lg shadow-blue-500/50 font-semibold text-base"
-            >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  Generating...
-                </>
-              ) : generatedReport ? (
-                <>
-                  <CheckCircle className="w-5 h-5" />
-                  Report Generated
-                </>
-              ) : (
-                <>
-                  <Save className="w-5 h-5" />
-                  Generate Report
-                </>
-              )}
-            </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">QA Remarks</label>
+              <textarea
+                value={airQualityData.remarks}
+                onChange={(e) => setAirQualityData({...airQualityData, remarks: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                rows={2}
+                disabled={!!generatedReport}
+              />
+            </div>
           </div>
+        )}
+
+        {reportType === 'water' && (
+          <div className="space-y-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Activity</label>
+                <input
+                  type="text"
+                  value={waterQualityData.activity}
+                  onChange={(e) => setWaterQualityData({...waterQualityData, activity: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Sample Collected In</label>
+                <input
+                  type="text"
+                  value={waterQualityData.sampleCollectedIn}
+                  onChange={(e) => setWaterQualityData({...waterQualityData, sampleCollectedIn: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-gray-300 text-xs">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border border-gray-300 px-2 py-2">S#</th>
+                    <th className="border border-gray-300 px-2 py-2">Sampling Points</th>
+                    <th className="border border-gray-300 px-2 py-2">Color</th>
+                    <th className="border border-gray-300 px-2 py-2">Odor</th>
+                    <th className="border border-gray-300 px-2 py-2">Clarity</th>
+                    <th className="border border-gray-300 px-2 py-2">pH</th>
+                    <th className="border border-gray-300 px-2 py-2">TDS<br/>(ppm)</th>
+                    <th className="border border-gray-300 px-2 py-2">APC<br/>(CFU/100ml)</th>
+                    <th className="border border-gray-300 px-2 py-2">Total<br/>Coliform/100ml</th>
+                    <th className="border border-gray-300 px-2 py-2">Faecal<br/>Coliform/100ml</th>
+                    {!generatedReport && <th className="border border-gray-300 px-2 py-2">Actions</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {waterQualityData.samplingPoints.map((point, idx) => (
+                    <tr key={idx}>
+                      <td className="border border-gray-300 p-1 text-center">{point.sNo}</td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.location}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].location = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.color}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].color = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.odor}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].odor = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.clarity}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].clarity = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.ph}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].ph = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.tds}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].tds = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.apc}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].apc = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.totalColiform}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].totalColiform = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-1">
+                        <input
+                          type="text"
+                          value={point.faecalColiform}
+                          onChange={(e) => {
+                            const newPoints = [...waterQualityData.samplingPoints];
+                            newPoints[idx].faecalColiform = e.target.value;
+                            setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
+                          }}
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      {!generatedReport && (
+                        <td className="border border-gray-300 p-1 text-center">
+                          {waterQualityData.samplingPoints.length > 1 && (
+                            <button
+                              onClick={() => removeWaterQualityRow(idx)}
+                              className="text-red-600 hover:text-red-800"
+                              title="Remove row"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Remarks</label>
+              <textarea
+                value={waterQualityData.remarks}
+                onChange={(e) => setWaterQualityData({...waterQualityData, remarks: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                rows={2}
+                disabled={!!generatedReport}
+              />
+            </div>
+          </div>
+        )}
+
+        {reportType === 'foodhandler' && (
+          <div className="space-y-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Activity</label>
+                <input
+                  type="text"
+                  value={foodHandlerData.activity}
+                  onChange={(e) => setFoodHandlerData({...foodHandlerData, activity: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                <input
+                  type="text"
+                  value={foodHandlerData.department}
+                  onChange={(e) => setFoodHandlerData({...foodHandlerData, department: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sampling Techniques</label>
+              <input
+                type="text"
+                value={foodHandlerData.samplingTechnique}
+                onChange={(e) => setFoodHandlerData({...foodHandlerData, samplingTechnique: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                disabled={!!generatedReport}
+              />
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-gray-300 text-sm">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border border-gray-300 px-3 py-2">S.No.</th>
+                    <th className="border border-gray-300 px-3 py-2">SAMPLING AREA</th>
+                    <th className="border border-gray-300 px-3 py-2">WORKER NAME</th>
+                    <th className="border border-gray-300 px-3 py-2">APC<br/>Average cfu/glove</th>
+                    <th className="border border-gray-300 px-3 py-2">COLIFORM<br/>Cfu/glove</th>
+                    {!generatedReport && <th className="border border-gray-300 px-3 py-2">Actions</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {foodHandlerData.workers.map((worker, idx) => (
+                    <tr key={idx}>
+                      <td className="border border-gray-300 p-2 text-center">{worker.sNo}</td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.area}
+                          onChange={(e) => {
+                            const newWorkers = [...foodHandlerData.workers];
+                            newWorkers[idx].area = e.target.value;
+                            setFoodHandlerData({...foodHandlerData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.name}
+                          onChange={(e) => {
+                            const newWorkers = [...foodHandlerData.workers];
+                            newWorkers[idx].name = e.target.value;
+                            setFoodHandlerData({...foodHandlerData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.apc}
+                          onChange={(e) => {
+                            const newWorkers = [...foodHandlerData.workers];
+                            newWorkers[idx].apc = e.target.value;
+                            setFoodHandlerData({...foodHandlerData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.coliform}
+                          onChange={(e) => {
+                            const newWorkers = [...foodHandlerData.workers];
+                            newWorkers[idx].coliform = e.target.value;
+                            setFoodHandlerData({...foodHandlerData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      {!generatedReport && (
+                        <td className="border border-gray-300 p-1 text-center">
+                          {foodHandlerData.workers.length > 1 && (
+                            <button
+                              onClick={() => removeFoodHandlerRow(idx)}
+                              className="text-red-600 hover:text-red-800"
+                              title="Remove row"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {reportType === 'foodsurface' && (
+          <div className="space-y-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Activity</label>
+                <input
+                  type="text"
+                  value={foodSurfaceData.activity}
+                  onChange={(e) => setFoodSurfaceData({...foodSurfaceData, activity: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                <input
+                  type="text"
+                  value={foodSurfaceData.department}
+                  onChange={(e) => setFoodSurfaceData({...foodSurfaceData, department: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sampling Techniques</label>
+              <input
+                type="text"
+                value={foodSurfaceData.samplingTechnique}
+                onChange={(e) => setFoodSurfaceData({...foodSurfaceData, samplingTechnique: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                disabled={!!generatedReport}
+              />
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-gray-300 text-sm">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border border-gray-300 px-3 py-2">S.No.</th>
+                    <th className="border border-gray-300 px-3 py-2">SAMPLING AREA</th>
+                    <th className="border border-gray-300 px-3 py-2">APC</th>
+                    <th className="border border-gray-300 px-3 py-2">COLIFORM</th>
+                    {!generatedReport && <th className="border border-gray-300 px-3 py-2">Actions</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {foodSurfaceData.surfaces.map((surface, idx) => (
+                    <tr key={idx}>
+                      <td className="border border-gray-300 p-2 text-center">{surface.sNo}</td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={surface.area}
+                          onChange={(e) => {
+                            const newSurfaces = [...foodSurfaceData.surfaces];
+                            newSurfaces[idx].area = e.target.value;
+                            setFoodSurfaceData({...foodSurfaceData, surfaces: newSurfaces});
+                          }}
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={surface.apc}
+                          onChange={(e) => {
+                            const newSurfaces = [...foodSurfaceData.surfaces];
+                            newSurfaces[idx].apc = e.target.value;
+                            setFoodSurfaceData({...foodSurfaceData, surfaces: newSurfaces});
+                          }}
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={surface.coliform}
+                          onChange={(e) => {
+                            const newSurfaces = [...foodSurfaceData.surfaces];
+                            newSurfaces[idx].coliform = e.target.value;
+                            setFoodSurfaceData({...foodSurfaceData, surfaces: newSurfaces});
+                          }}
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      {!generatedReport && (
+                        <td className="border border-gray-300 p-1 text-center">
+                          {foodSurfaceData.surfaces.length > 1 && (
+                            <button
+                              onClick={() => removeFoodSurfaceRow(idx)}
+                              className="text-red-600 hover:text-red-800"
+                              title="Remove row"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {reportType === 'deboning' && (
+          <div className="space-y-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Activity</label>
+                <input
+                  type="text"
+                  value={deboningData.activity}
+                  onChange={(e) => setDeboningData({...deboningData, activity: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                <input
+                  type="text"
+                  value={deboningData.department}
+                  onChange={(e) => setDeboningData({...deboningData, department: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  disabled={!!generatedReport}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sampling Techniques</label>
+              <input
+                type="text"
+                value={deboningData.samplingTechnique}
+                onChange={(e) => setDeboningData({...deboningData, samplingTechnique: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                disabled={!!generatedReport}
+              />
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-gray-300 text-sm">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border border-gray-300 px-3 py-2">S.No.</th>
+                    <th className="border border-gray-300 px-3 py-2">SAMPLING AREA</th>
+                    <th className="border border-gray-300 px-3 py-2">WORKER NAME</th>
+                    <th className="border border-gray-300 px-3 py-2">APC<br/>Average cfu/glove</th>
+                    <th className="border border-gray-300 px-3 py-2">COLIFORM<br/>Cfu/glove</th>
+                    {!generatedReport && <th className="border border-gray-300 px-3 py-2">Actions</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {deboningData.workers.map((worker, idx) => (
+                    <tr key={idx}>
+                      <td className="border border-gray-300 p-2 text-center">{worker.sNo}</td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.area}
+                          onChange={(e) => {
+                            const newWorkers = [...deboningData.workers];
+                            newWorkers[idx].area = e.target.value;
+                            setDeboningData({...deboningData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.name}
+                          onChange={(e) => {
+                            const newWorkers = [...deboningData.workers];
+                            newWorkers[idx].name = e.target.value;
+                            setDeboningData({...deboningData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.apc}
+                          onChange={(e) => {
+                            const newWorkers = [...deboningData.workers];
+                            newWorkers[idx].apc = e.target.value;
+                            setDeboningData({...deboningData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        <input
+                          type="text"
+                          value={worker.coliform}
+                          onChange={(e) => {
+                            const newWorkers = [...deboningData.workers];
+                            newWorkers[idx].coliform = e.target.value;
+                            setDeboningData({...deboningData, workers: newWorkers});
+                          }}
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          disabled={!!generatedReport}
+                        />
+                      </td>
+                      {!generatedReport && (
+                        <td className="border border-gray-300 p-1 text-center">
+                          {deboningData.workers.length > 1 && (
+                            <button
+                              onClick={() => removeDeboningRow(idx)}
+                              className="text-red-600 hover:text-red-800"
+                              title="Remove row"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        <div className="flex gap-3 justify-end">
+          <button
+            onClick={handleGenerateReport}
+            disabled={loading || !!generatedReport}
+            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
+          >
+            <FileCheck className="w-5 h-5" />
+            {loading ? 'Generating...' : generatedReport ? 'Report Generated' : 'Generate Report'}
+          </button>
         </div>
       </div>
-
-      {!generatedReport && (
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-5 flex items-start gap-3">
-          <AlertCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <h4 className="font-semibold text-blue-900 mb-1">Important Notes:</h4>
-            <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
-              <li>All fields marked with <span className="text-red-500 font-semibold">*</span> are required</li>
-              <li>Ensure all test values are entered accurately before generating the report</li>
-              <li>Generated reports can be downloaded as PDF or printed directly</li>
-              <li>Reports are automatically saved to the database for future reference</li>
-            </ul>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

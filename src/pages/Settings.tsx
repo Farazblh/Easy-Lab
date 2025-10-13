@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Save, AlertCircle, UserPlus, Trash2, Shield, Eye, Beaker, X, Mail, Lock, User } from 'lucide-react';
+import { Save, AlertCircle, UserPlus, Trash2, Shield, Eye, Beaker } from 'lucide-react';
 
 type User = {
   id: string;
@@ -200,19 +200,16 @@ const Settings = () => {
   return (
     <div className="space-y-6">
       {profile?.role === 'admin' && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-xl font-bold text-white">User Management</h2>
-                <p className="text-blue-100 text-sm mt-1">Manage system users and their permissions</p>
-              </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div className="border-b border-gray-200">
+            <div className="px-6 py-4 flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-gray-900">User Management</h2>
               <button
                 onClick={() => setShowAddUser(!showAddUser)}
-                className="flex items-center gap-2 bg-white text-blue-600 px-5 py-2.5 rounded-lg hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl font-medium"
+                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <UserPlus className="w-5 h-5" />
-                Add New User
+                Add User
               </button>
             </div>
           </div>
@@ -233,24 +230,12 @@ const Settings = () => {
             )}
 
             {showAddUser && (
-              <div className="mb-6 bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border-2 border-blue-100 p-6 shadow-inner">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900">Create New User</h3>
-                    <p className="text-sm text-gray-600 mt-1">Enter user details to create a new account</p>
-                  </div>
-                  <button
-                    onClick={() => setShowAddUser(false)}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    <X className="w-6 h-6" />
-                  </button>
-                </div>
-                <form onSubmit={handleAddUser} className="space-y-5">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900 mb-4">Add New User</h3>
+                <form onSubmit={handleAddUser} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        <User className="w-4 h-4 inline mr-1" />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Full Name *
                       </label>
                       <input
@@ -258,27 +243,23 @@ const Settings = () => {
                         required
                         value={newUserData.fullName}
                         onChange={(e) => setNewUserData({ ...newUserData, fullName: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                        placeholder="John Doe"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        <Mail className="w-4 h-4 inline mr-1" />
-                        Email Address *
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email *
                       </label>
                       <input
                         type="email"
                         required
                         value={newUserData.email}
                         onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                        placeholder="john@example.com"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        <Lock className="w-4 h-4 inline mr-1" />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Password *
                       </label>
                       <input
@@ -286,39 +267,36 @@ const Settings = () => {
                         required
                         value={newUserData.password}
                         onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
-                        placeholder="Minimum 6 characters"
-                        minLength={6}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        <Shield className="w-4 h-4 inline mr-1" />
-                        User Role *
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Role *
                       </label>
                       <select
                         value={newUserData.role}
                         onChange={(e) => setNewUserData({ ...newUserData, role: e.target.value as any })}
-                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
-                        <option value="viewer">Viewer - Read Only Access</option>
-                        <option value="analyst">Analyst - Full Lab Access</option>
-                        <option value="admin">Admin - Complete Control</option>
+                        <option value="viewer">Viewer</option>
+                        <option value="analyst">Analyst</option>
+                        <option value="admin">Admin</option>
                       </select>
                     </div>
                   </div>
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex gap-2">
                     <button
                       type="submit"
                       disabled={loading}
-                      className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all disabled:bg-blue-400 font-semibold shadow-lg hover:shadow-xl"
+                      className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400"
                     >
-                      {loading ? 'Creating Account...' : 'Create User Account'}
+                      {loading ? 'Adding...' : 'Add User'}
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowAddUser(false)}
-                      className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-semibold"
+                      className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
                     >
                       Cancel
                     </button>
@@ -329,77 +307,50 @@ const Settings = () => {
 
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead>
-                  <tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200">
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      User Details
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                      Name
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Email Address
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                      Email
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Role & Permissions
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                      Role
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {users.length === 0 ? (
-                    <tr>
-                      <td colSpan={4} className="px-6 py-12 text-center">
-                        <UserPlus className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                        <p className="text-gray-500 font-medium">No users found</p>
-                        <p className="text-sm text-gray-400 mt-1">Add your first user to get started</p>
+                <tbody className="divide-y divide-gray-200">
+                  {users.map((user) => (
+                    <tr key={user.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-sm text-gray-900">{user.full_name}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600">{user.email}</td>
+                      <td className="px-4 py-3">
+                        <select
+                          value={user.role}
+                          onChange={(e) => handleUpdateRole(user.id, e.target.value as any)}
+                          className={`px-3 py-1 rounded-full text-xs font-medium border ${getRoleBadgeClass(user.role)} focus:ring-2 focus:ring-blue-500`}
+                        >
+                          <option value="viewer">Viewer</option>
+                          <option value="analyst">Analyst</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={() => handleDeleteUser(user.id)}
+                          disabled={user.id === profile?.id}
+                          className="text-red-600 hover:text-red-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+                          title={user.id === profile?.id ? "You cannot delete yourself" : "Delete user"}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </td>
                     </tr>
-                  ) : (
-                    users.map((user) => (
-                      <tr key={user.id} className="hover:bg-blue-50 transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md">
-                              {user.full_name.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                              <p className="font-semibold text-gray-900">{user.full_name}</p>
-                              <p className="text-xs text-gray-500">
-                                Member since {new Date(user.created_at).toLocaleDateString()}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-gray-400" />
-                            <span className="text-sm text-gray-700">{user.email}</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <select
-                            value={user.role}
-                            onChange={(e) => handleUpdateRole(user.id, e.target.value as any)}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold border-2 ${getRoleBadgeClass(user.role)} focus:ring-2 focus:ring-blue-500 focus:outline-none cursor-pointer transition-all hover:shadow-md flex items-center gap-2`}
-                          >
-                            <option value="viewer">👁️ Viewer</option>
-                            <option value="analyst">🔬 Analyst</option>
-                            <option value="admin">🛡️ Admin</option>
-                          </select>
-                        </td>
-                        <td className="px-6 py-4">
-                          <button
-                            onClick={() => handleDeleteUser(user.id)}
-                            disabled={user.id === profile?.id}
-                            className="p-2 rounded-lg text-red-600 hover:bg-red-50 disabled:text-gray-400 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all"
-                            title={user.id === profile?.id ? "You cannot delete yourself" : "Delete user"}
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  )}
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -407,11 +358,10 @@ const Settings = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="bg-gradient-to-r from-green-600 to-green-700 px-6 py-5">
-          <div>
-            <h2 className="text-xl font-bold text-white">Security Settings</h2>
-            <p className="text-green-100 text-sm mt-1">Update your password to keep your account secure</p>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="border-b border-gray-200">
+          <div className="px-6 py-4">
+            <h2 className="text-xl font-semibold text-gray-900">Change Password</h2>
           </div>
         </div>
 
@@ -430,10 +380,9 @@ const Settings = () => {
             </div>
           )}
 
-          <form onSubmit={handleChangePassword} className="space-y-5 max-w-xl">
+          <form onSubmit={handleChangePassword} className="space-y-4 max-w-md">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                <Lock className="w-4 h-4 inline mr-1" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 New Password *
               </label>
               <input
@@ -443,15 +392,13 @@ const Settings = () => {
                 onChange={(e) =>
                   setPasswordData({ ...passwordData, newPassword: e.target.value })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
-                placeholder="Enter new password (minimum 6 characters)"
-                minLength={6}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter new password"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                <Lock className="w-4 h-4 inline mr-1" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Confirm New Password *
               </label>
               <input
@@ -461,19 +408,18 @@ const Settings = () => {
                 onChange={(e) =>
                   setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
-                placeholder="Re-enter your new password"
-                minLength={6}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Confirm new password"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-all disabled:bg-green-400 font-semibold shadow-lg hover:shadow-xl"
+              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400"
             >
               <Save className="w-5 h-5" />
-              {loading ? 'Updating Password...' : 'Update Password'}
+              {loading ? 'Changing...' : 'Change Password'}
             </button>
           </form>
         </div>
