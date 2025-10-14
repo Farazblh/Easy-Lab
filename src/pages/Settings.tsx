@@ -50,30 +50,25 @@ const Settings = () => {
       return;
     }
 
-    const { data: authUsers } = await supabase.auth.admin.listUsers();
-
-    if (authUsers) {
-      const uniqueProfileIds = new Set();
-      const usersWithEmail = profilesData
-        .filter((profile) => {
-          if (uniqueProfileIds.has(profile.id)) {
-            return false;
-          }
-          uniqueProfileIds.add(profile.id);
-          return true;
-        })
-        .map((profile) => {
-          const authUser = authUsers.users.find((u) => u.id === profile.id);
-          return {
-            id: profile.id,
-            email: authUser?.email || 'N/A',
-            full_name: profile.full_name,
-            role: profile.role,
-            created_at: profile.created_at,
-          };
-        });
-      setUsers(usersWithEmail);
-    }
+    const uniqueProfileIds = new Set();
+    const usersWithEmail = profilesData
+      .filter((profile) => {
+        if (uniqueProfileIds.has(profile.id)) {
+          return false;
+        }
+        uniqueProfileIds.add(profile.id);
+        return true;
+      })
+      .map((profile) => {
+        return {
+          id: profile.id,
+          email: profile.email || 'N/A',
+          full_name: profile.full_name,
+          role: profile.role,
+          created_at: profile.created_at,
+        };
+      });
+    setUsers(usersWithEmail);
   };
 
   const handleAddUser = async (e: React.FormEvent) => {
@@ -97,6 +92,7 @@ const Settings = () => {
             id: data.user.id,
             full_name: newUserData.fullName,
             role: newUserData.role,
+            email: newUserData.email,
           });
 
         if (profileError) throw profileError;
