@@ -352,9 +352,9 @@ const Settings = () => {
                       <td className="px-4 py-3">
                         <button
                           onClick={() => handleDeleteUser(user.id)}
-                          disabled={user.id === profile?.id}
+                          disabled={user.id === profile?.id || user.id !== '3afb33a2-4a42-4679-ace8-fe82ac60630a' && profile?.id !== '3afb33a2-4a42-4679-ace8-fe82ac60630a'}
                           className="text-red-600 hover:text-red-800 disabled:text-gray-400 disabled:cursor-not-allowed"
-                          title={user.id === profile?.id ? "You cannot delete yourself" : "Delete user"}
+                          title={user.id === profile?.id ? "You cannot delete yourself" : profile?.id !== '3afb33a2-4a42-4679-ace8-fe82ac60630a' ? "Only main admin can delete users" : "Delete user"}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
