@@ -202,7 +202,10 @@ export const generatePDFReport = async (
           method: 'FDA BAM Ch.4',
           value: results.coliforms ? results.coliforms.toUpperCase() : 'Not Tested',
           limit: '<3 - 100',
-          status: results.coliforms ? ((results.coliforms.toLowerCase() === 'nil' || results.coliforms.toLowerCase() === 'negative') ? 'Pass' : 'Fail') : '-'
+          status: results.coliforms ? (
+            (results.coliforms.toLowerCase() === 'nil' || results.coliforms.toLowerCase() === 'negative') ? 'Pass' :
+            (!isNaN(parseInt(results.coliforms)) && parseInt(results.coliforms) <= 100) ? 'Pass' : 'Fail'
+          ) : '-'
         },
         {
           test: 'Staphylococcus aureus',
