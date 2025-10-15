@@ -783,13 +783,6 @@ export const generatePDFReport = async (
     doc.setFont('helvetica', 'bold');
     doc.text(remarksText, margin + 24, yPos);
     yPos += 4.5;
-
-    yPos += 6;
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'italic');
-    doc.setTextColor(100, 100, 100);
-    const testDate = results?.tested_at || sample.received_date;
-    doc.text(`Test Completion Date: ${new Date(testDate).toLocaleString('en-GB', { dateStyle: 'long', timeStyle: 'short' })}`, margin + 2, yPos);
   } else {
     doc.setFont('helvetica', 'italic');
     doc.setTextColor(150, 150, 150);
