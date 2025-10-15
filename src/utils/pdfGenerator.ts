@@ -201,15 +201,15 @@ export const generatePDFReport = async (
           test: 'Total Coliforms',
           method: 'FDA BAM Ch.4',
           value: results.coliforms ? results.coliforms.toUpperCase() : 'Not Tested',
-          limit: '<1000',
+          limit: '<3 - 100',
           status: results.coliforms ? ((results.coliforms.toLowerCase() === 'nil' || results.coliforms.toLowerCase() === 'negative') ? 'Pass' : 'Fail') : '-'
         },
         {
           test: 'Staphylococcus aureus',
           method: 'FDA BAM Ch.12',
           value: results.s_aureus ? `${results.s_aureus} CFU/g` : 'Not Tested',
-          limit: '<3 - 100',
-          status: results.s_aureus ? (parseInt(results.s_aureus) <= 100 ? 'Pass' : 'Fail') : '-'
+          limit: '<1000',
+          status: results.s_aureus ? (parseInt(results.s_aureus) <= 1000 ? 'Pass' : 'Fail') : '-'
         },
         {
           test: 'E. coli O157:H7',
