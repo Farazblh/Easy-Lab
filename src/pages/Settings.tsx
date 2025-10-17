@@ -115,7 +115,9 @@ const Settings = () => {
     if (!confirm('Are you sure you want to delete this user?')) return;
 
     try {
-      const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
+      const { error: deleteError } = await supabase.rpc('delete_user', {
+        user_id_to_delete: userId
+      });
       if (deleteError) throw deleteError;
 
       setSuccess('User deleted successfully');
