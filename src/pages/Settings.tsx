@@ -215,7 +215,7 @@ const Settings = () => {
               <h2 className="text-xl font-semibold text-gray-900">User Management</h2>
               <button
                 onClick={() => setShowAddUser(!showAddUser)}
-                className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+                className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
               >
                 <UserPlus className="w-5 h-5" />
                 Add User
@@ -307,7 +307,7 @@ const Settings = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:bg-blue-400"
+                      className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors disabled:bg-blue-400"
                     >
                       {loading ? 'Adding...' : 'Add User'}
                     </button>
@@ -434,7 +434,7 @@ const Settings = () => {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:bg-blue-400"
+              className="flex items-center gap-2 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors disabled:bg-blue-400"
             >
               <Save className="w-5 h-5" />
               {loading ? 'Changing...' : 'Change Password'}

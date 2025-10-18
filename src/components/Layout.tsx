@@ -43,7 +43,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
       <aside className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-30 transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between p-6 border-b">
           <div className="flex items-center gap-2">
-            <Drumstick className="w-8 h-8 text-red-600" />
+            <img src="/Capture-removebg-preview.png" alt="MeatLab Pro" className="w-10 h-10" />
             <div>
               <h1 className="text-xl font-bold text-red-600">MeatLab Pro</h1>
               <p className="text-xs text-gray-500">Micro Lab Management</p>
@@ -64,7 +64,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                   currentPage === item.id
                     ? 'bg-red-50 text-red-600'
-                    : 'text-gray-700 hover:bg-gray-50'
+                    : 'text-gray-700 hover:bg-orange-50 hover:text-red-600'
                 }`}
               >
                 <Icon className="w-5 h-5" />

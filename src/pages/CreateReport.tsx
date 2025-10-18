@@ -1014,7 +1014,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') addFoodSurfaceRow();
                 else if (reportType === 'deboning') addDeboningRow();
               }}
-              className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+              className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
             >
               <Plus className="w-4 h-4" />
               Add Row
@@ -1843,7 +1843,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           <button
             onClick={handleGenerateReport}
             disabled={loading || !!generatedReport}
-            className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
+            className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
           >
             <FileCheck className="w-5 h-5" />
             {loading ? 'Generating...' : generatedReport ? 'Report Generated' : 'Generate Report'}

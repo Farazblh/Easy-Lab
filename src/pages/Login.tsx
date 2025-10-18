@@ -92,7 +92,7 @@ const Login = () => {
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
         <div className="flex flex-col items-center mb-8">
           <div className="bg-red-600 p-4 rounded-full mb-4">
-            <Drumstick className="w-12 h-12 text-white" />
+            <img src="/Capture-removebg-preview.png" alt="MeatLab Pro" className="w-16 h-16" />
           </div>
           <h1 className="text-3xl font-bold text-red-600">MeatLab Pro</h1>
           <p className="text-gray-600 mt-1">Micro Lab Management</p>
@@ -105,8 +105,8 @@ const Login = () => {
               onClick={() => !isSignUp || toggleMode()}
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 !isSignUp
-                  ? 'bg-red-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-red-600 text-white hover:bg-orange-600'
+                  : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-red-600'
               }`}
             >
               Sign In
@@ -116,8 +116,8 @@ const Login = () => {
               onClick={() => isSignUp || toggleMode()}
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 isSignUp
-                  ? 'bg-red-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-red-600 text-white hover:bg-orange-600'
+                  : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-red-600'
               }`}
             >
               Sign Up
@@ -233,7 +233,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={toggleForgotPassword}
-                className="text-sm text-red-600 hover:text-red-700 font-medium"
+                className="text-sm text-red-600 hover:text-orange-600 font-medium"
               >
                 Forgot Password?
               </button>
@@ -243,7 +243,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:bg-red-400 disabled:cursor-not-allowed"
+            className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors disabled:bg-red-400 disabled:cursor-not-allowed"
           >
             {loading
               ? isForgotPassword
@@ -264,21 +264,21 @@ const Login = () => {
             {isForgotPassword ? (
               <>
                 Remember your password?{' '}
-                <button onClick={toggleForgotPassword} className="text-red-600 hover:text-red-700 font-medium">
+                <button onClick={toggleForgotPassword} className="text-red-600 hover:text-orange-600 font-medium">
                   Sign in here
                 </button>
               </>
             ) : isSignUp ? (
               <>
                 Already have an account?{' '}
-                <button onClick={toggleMode} className="text-red-600 hover:text-red-700 font-medium">
+                <button onClick={toggleMode} className="text-red-600 hover:text-orange-600 font-medium">
                   Sign in here
                 </button>
               </>
             ) : (
               <>
                 Don't have an account?{' '}
-                <button onClick={toggleMode} className="text-red-600 hover:text-red-700 font-medium">
+                <button onClick={toggleMode} className="text-red-600 hover:text-orange-600 font-medium">
                   Sign up here
                 </button>
               </>
