@@ -88,8 +88,61 @@ const Login = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4 overflow-hidden">
+      {/* Floating Petri Dishes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Left Side Dishes */}
+        <div className="absolute top-[10%] left-[5%] w-24 h-24 rounded-full bg-gradient-to-br from-red-100 to-orange-100 opacity-60 animate-float-slow border-4 border-red-200 shadow-lg">
+          <div className="absolute inset-2 rounded-full border-2 border-red-300 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-red-300 opacity-50"></div>
+          </div>
+        </div>
+
+        <div className="absolute top-[30%] left-[8%] w-20 h-20 rounded-full bg-gradient-to-br from-orange-100 to-red-100 opacity-50 animate-float-medium border-4 border-orange-200 shadow-lg">
+          <div className="absolute inset-2 rounded-full border-2 border-orange-300 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-orange-400 opacity-60"></div>
+          </div>
+        </div>
+
+        <div className="absolute top-[55%] left-[3%] w-28 h-28 rounded-full bg-gradient-to-br from-red-100 to-orange-100 opacity-55 animate-float-fast border-4 border-red-200 shadow-lg">
+          <div className="absolute inset-3 rounded-full border-2 border-red-300 flex items-center justify-center">
+            <div className="w-14 h-14 rounded-full bg-red-400 opacity-50"></div>
+          </div>
+        </div>
+
+        <div className="absolute top-[75%] left-[6%] w-16 h-16 rounded-full bg-gradient-to-br from-orange-100 to-red-100 opacity-60 animate-float-slow border-4 border-orange-200 shadow-lg">
+          <div className="absolute inset-2 rounded-full border-2 border-orange-300 flex items-center justify-center">
+            <div className="w-6 h-6 rounded-full bg-orange-300 opacity-50"></div>
+          </div>
+        </div>
+
+        {/* Right Side Dishes */}
+        <div className="absolute top-[15%] right-[5%] w-20 h-20 rounded-full bg-gradient-to-br from-orange-100 to-red-100 opacity-60 animate-float-medium border-4 border-orange-200 shadow-lg">
+          <div className="absolute inset-2 rounded-full border-2 border-orange-300 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-orange-400 opacity-50"></div>
+          </div>
+        </div>
+
+        <div className="absolute top-[35%] right-[7%] w-24 h-24 rounded-full bg-gradient-to-br from-red-100 to-orange-100 opacity-55 animate-float-fast border-4 border-red-200 shadow-lg">
+          <div className="absolute inset-2 rounded-full border-2 border-red-300 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-red-300 opacity-60"></div>
+          </div>
+        </div>
+
+        <div className="absolute top-[60%] right-[4%] w-18 h-18 rounded-full bg-gradient-to-br from-orange-100 to-red-100 opacity-50 animate-float-slow border-4 border-orange-200 shadow-lg">
+          <div className="absolute inset-2 rounded-full border-2 border-orange-300 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-orange-400 opacity-50"></div>
+          </div>
+        </div>
+
+        <div className="absolute top-[80%] right-[6%] w-22 h-22 rounded-full bg-gradient-to-br from-red-100 to-orange-100 opacity-60 animate-float-medium border-4 border-red-200 shadow-lg">
+          <div className="absolute inset-2 rounded-full border-2 border-red-300 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-red-400 opacity-50"></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto relative z-10">
         <div className="flex flex-col items-center mb-6">
           <div className="mb-3">
             <img src="/pngtree-red-bull-logo-with-black-outline-clipart-png-image_13722053.png" alt="MeatLab Pro" className="w-20 h-20" />
