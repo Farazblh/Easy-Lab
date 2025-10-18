@@ -151,7 +151,7 @@ const Dashboard = () => {
               className="p-2 rounded-lg bg-red-50 hover:bg-red-100 transition-colors"
               title="Delete all"
             >
-              <Trash2 className="w-4 h-4 text-amber-900" />
+              <Trash2 className="w-4 h-4 text-red-600" />
             </button>
           )}
         </div>
@@ -174,28 +174,28 @@ const Dashboard = () => {
           icon={TestTube}
           label="Total Samples"
           value={stats.totalSamples}
-          color="bg-amber-900"
+          color="bg-red-600"
           onDelete={() => handleDeleteAll('all')}
         />
         <StatCard
           icon={Clock}
           label="Pending Samples"
           value={stats.pendingSamples}
-          color="bg-amber-700"
+          color="bg-orange-500"
           onDelete={() => handleDeleteAll('pending')}
         />
         <StatCard
           icon={CheckCircle}
           label="Completed"
           value={stats.completedSamples}
-          color="bg-amber-800"
+          color="bg-green-600"
           onDelete={() => handleDeleteAll('completed')}
         />
         <StatCard
           icon={FileText}
           label="Reports Generated"
           value={stats.totalReports}
-          color="bg-stone-700"
+          color="bg-purple-600"
           onDelete={() => handleDeleteAll('reports')}
         />
       </div>
