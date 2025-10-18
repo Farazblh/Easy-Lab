@@ -213,7 +213,7 @@ const Samples = () => {
               placeholder="Search samples..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
           <div className="relative">
@@ -221,7 +221,7 @@ const Samples = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent appearance-none bg-white"
+              className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -232,7 +232,7 @@ const Samples = () => {
         {canModify && (
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 bg-amber-900 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
+            className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
           >
             <Plus className="w-5 h-5" />
             Add Sample
@@ -274,9 +274,9 @@ const Samples = () => {
                 </tr>
               ) : (
                 filteredSamples.map((sample) => (
-                  <tr key={sample.id} className="hover:bg-amber-50">
+                  <tr key={sample.id} className="hover:bg-orange-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-amber-900">{sample.sample_code}</span>
+                      <span className="text-sm font-medium text-red-600">{sample.sample_code}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {sample.sample_type}
@@ -290,7 +290,7 @@ const Samples = () => {
                         className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           sample.status === 'completed'
                             ? 'bg-green-100 text-green-800'
-                            : 'bg-amber-50 text-amber-700'
+                            : 'bg-orange-100 text-orange-800'
                         }`}
                       >
                         {sample.status}
@@ -300,7 +300,7 @@ const Samples = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleView(sample)}
-                          className="text-amber-900 hover:text-stone-800"
+                          className="text-red-600 hover:text-blue-800"
                           title="View Details"
                         >
                           <Eye className="w-5 h-5" />
@@ -314,7 +314,7 @@ const Samples = () => {
                         </button>
                         <button
                           onClick={() => handleGenerateReport(sample.id, 'print')}
-                          className="text-stone-700 hover:text-stone-800"
+                          className="text-purple-600 hover:text-purple-800"
                           title="Print Report"
                         >
                           <Printer className="w-5 h-5" />
@@ -331,7 +331,7 @@ const Samples = () => {
                         {profile?.role === 'admin' && (
                           <button
                             onClick={() => handleDelete(sample.id)}
-                            className="text-amber-900 hover:text-red-900"
+                            className="text-red-600 hover:text-red-800"
                             title="Delete"
                           >
                             <Trash2 className="w-5 h-5" />

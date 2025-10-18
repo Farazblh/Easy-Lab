@@ -151,7 +151,7 @@ const Dashboard = () => {
               className="p-2 rounded-lg bg-red-50 hover:bg-red-100 transition-colors"
               title="Delete all"
             >
-              <Trash2 className="w-4 h-4 text-amber-900" />
+              <Trash2 className="w-4 h-4 text-red-600" />
             </button>
           )}
         </div>
@@ -162,7 +162,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-800"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -174,28 +174,28 @@ const Dashboard = () => {
           icon={TestTube}
           label="Total Samples"
           value={stats.totalSamples}
-          color="bg-amber-900"
+          color="bg-red-600"
           onDelete={() => handleDeleteAll('all')}
         />
         <StatCard
           icon={Clock}
           label="Pending Samples"
           value={stats.pendingSamples}
-          color="bg-amber-700"
+          color="bg-orange-500"
           onDelete={() => handleDeleteAll('pending')}
         />
         <StatCard
           icon={CheckCircle}
           label="Completed"
           value={stats.completedSamples}
-          color="bg-amber-800"
+          color="bg-green-600"
           onDelete={() => handleDeleteAll('completed')}
         />
         <StatCard
           icon={FileText}
           label="Reports Generated"
           value={stats.totalReports}
-          color="bg-stone-700"
+          color="bg-purple-600"
           onDelete={() => handleDeleteAll('reports')}
         />
       </div>
@@ -203,7 +203,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-amber-900">Recent Samples</h3>
+            <h3 className="text-lg font-semibold text-orange-600">Recent Samples</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -240,8 +240,8 @@ const Dashboard = () => {
                         <span
                           className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                             sample.status === 'completed'
-                              ? 'bg-amber-100 text-amber-800'
-                              : 'bg-amber-50 text-amber-700'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-orange-100 text-orange-800'
                           }`}
                         >
                           {sample.status}

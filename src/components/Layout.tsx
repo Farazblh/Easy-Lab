@@ -45,7 +45,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
           <div className="flex items-center gap-2">
             <img src="/Capture-removebg-preview.png" alt="MeatLab Pro" className="w-10 h-10" />
             <div>
-              <h1 className="text-xl font-bold text-amber-900">MeatLab Pro</h1>
+              <h1 className="text-xl font-bold text-red-600">MeatLab Pro</h1>
               <p className="text-xs text-gray-500">Micro Lab Management</p>
             </div>
           </div>
@@ -63,8 +63,8 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
                 onClick={() => handleNavigation(item.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                   currentPage === item.id
-                    ? 'bg-amber-50 text-amber-800'
-                    : 'text-gray-700 hover:bg-amber-50 hover:text-amber-800'
+                    ? 'bg-orange-50 text-orange-600'
+                    : 'text-gray-700 hover:bg-orange-50 hover:text-orange-600'
                 }`}
               >
                 <Icon className="w-5 h-5" />
@@ -76,7 +76,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
           <div className="mb-3 px-2">
-            <p className="text-sm font-semibold text-amber-800">{profile?.full_name}</p>
+            <p className="text-sm font-semibold text-orange-600">{profile?.full_name}</p>
             <p className="text-xs text-gray-500 capitalize">{profile?.role}</p>
           </div>
           <button
@@ -84,7 +84,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
               await signOut();
               window.location.reload();
             }}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-amber-900 hover:bg-amber-50 transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
           >
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Logout</span>
@@ -102,7 +102,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
               <Menu className="w-6 h-6 text-gray-600" />
             </button>
             <div className="flex-1 lg:flex-none">
-              <h2 className="text-2xl font-bold text-amber-900 capitalize">{currentPage}</h2>
+              <h2 className="text-2xl font-bold text-orange-600 capitalize">{currentPage}</h2>
             </div>
           </div>
         </header>

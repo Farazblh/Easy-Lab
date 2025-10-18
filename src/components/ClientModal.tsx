@@ -77,9 +77,9 @@ const ClientModal = ({ client, onClose }: ClientModalProps) => {
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-300 rounded-lg p-3 flex items-start gap-2">
-              <AlertCircle className="w-5 h-5 text-amber-900 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-900">{error}</p>
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
+              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-800">{error}</p>
             </div>
           )}
 
@@ -92,7 +92,7 @@ const ClientModal = ({ client, onClose }: ClientModalProps) => {
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Enter supplier name"
             />
           </div>
@@ -104,7 +104,7 @@ const ClientModal = ({ client, onClose }: ClientModalProps) => {
               required
               value={formData.company}
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Enter company name"
             />
           </div>
@@ -115,7 +115,7 @@ const ClientModal = ({ client, onClose }: ClientModalProps) => {
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="supplier@company.com"
             />
           </div>
@@ -126,7 +126,7 @@ const ClientModal = ({ client, onClose }: ClientModalProps) => {
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="+1234567890"
             />
           </div>
@@ -137,7 +137,7 @@ const ClientModal = ({ client, onClose }: ClientModalProps) => {
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Enter complete address"
             />
           </div>
@@ -153,7 +153,7 @@ const ClientModal = ({ client, onClose }: ClientModalProps) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-amber-900 text-white rounded-lg hover:bg-amber-700 transition-colors disabled:bg-amber-400"
+              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:bg-blue-400"
             >
               {loading ? 'Saving...' : client ? 'Update Supplier' : 'Add Supplier'}
             </button>
