@@ -63,8 +63,8 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
                 onClick={() => handleNavigation(item.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                   currentPage === item.id
-                    ? 'bg-red-50 text-red-600'
-                    : 'text-gray-700 hover:bg-orange-50 hover:text-red-600'
+                    ? 'bg-orange-50 text-orange-600'
+                    : 'text-gray-700 hover:bg-orange-50 hover:text-orange-600'
                 }`}
               >
                 <Icon className="w-5 h-5" />
