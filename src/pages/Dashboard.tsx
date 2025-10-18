@@ -258,7 +258,7 @@ const Dashboard = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="p-6">
             <img
-              src="/Capture.PNG"
+              src="/Capture (1).PNG"
               alt="Test Performance"
               className="w-full h-auto"
             />
