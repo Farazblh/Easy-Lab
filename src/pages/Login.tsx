@@ -88,8 +88,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
+    <div className="h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 max-h-[95vh] overflow-y-auto">
         <div className="flex flex-col items-center mb-8">
           <div className="mb-4">
             <img src="/pngtree-red-bull-logo-with-black-outline-clipart-png-image_13722053.png" alt="MeatLab Pro" className="w-24 h-24" />
