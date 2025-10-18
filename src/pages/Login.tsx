@@ -88,18 +88,18 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4 overflow-hidden">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 max-h-[95vh] overflow-y-auto">
-        <div className="flex flex-col items-center mb-8">
-          <div className="mb-4">
-            <img src="/pngtree-red-bull-logo-with-black-outline-clipart-png-image_13722053.png" alt="MeatLab Pro" className="w-24 h-24" />
+    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
+        <div className="flex flex-col items-center mb-6">
+          <div className="mb-3">
+            <img src="/pngtree-red-bull-logo-with-black-outline-clipart-png-image_13722053.png" alt="MeatLab Pro" className="w-20 h-20" />
           </div>
-          <h1 className="text-3xl font-bold text-red-600">MeatLab Pro</h1>
-          <p className="text-gray-600 mt-1">Micro Lab Management</p>
+          <h1 className="text-2xl font-bold text-red-600">MeatLab Pro</h1>
+          <p className="text-gray-600 text-sm mt-1">Micro Lab Management</p>
         </div>
 
         {!isForgotPassword && (
-          <div className="flex gap-2 mb-6">
+          <div className="flex gap-2 mb-4">
             <button
               type="button"
               onClick={() => !isSignUp || toggleMode()}
@@ -126,13 +126,13 @@ const Login = () => {
         )}
 
         {isForgotPassword && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">Reset Password</h2>
+          <div className="mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Reset Password</h2>
             <p className="text-sm text-gray-600 mt-1">Enter your email to receive a reset link</p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -158,7 +158,7 @@ const Login = () => {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
                 placeholder="John Doe"
               />
             </div>
@@ -174,7 +174,7 @@ const Login = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
               placeholder="your@email.com"
             />
           </div>
@@ -191,7 +191,7 @@ const Login = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                   placeholder={isSignUp ? 'At least 6 characters' : 'Enter your password'}
                 />
                 <button
@@ -219,7 +219,7 @@ const Login = () => {
                 id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value as 'admin' | 'analyst' | 'viewer')}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
               >
                 <option value="viewer">Viewer (Read-only access)</option>
                 <option value="analyst">Analyst (Can add and edit data)</option>
@@ -243,7 +243,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors disabled:bg-red-400 disabled:cursor-not-allowed"
+            className="w-full bg-red-600 text-white py-2.5 rounded-lg font-semibold hover:bg-orange-600 transition-colors disabled:bg-red-400 disabled:cursor-not-allowed"
           >
             {loading
               ? isForgotPassword
@@ -259,7 +259,7 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-6 pt-6 border-t text-center">
+        <div className="mt-4 pt-4 border-t text-center">
           <p className="text-sm text-gray-600">
             {isForgotPassword ? (
               <>
@@ -286,7 +286,7 @@ const Login = () => {
           </p>
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-4 text-center">
           <p className="text-xs text-gray-500">
             Made by <span className="font-semibold text-orange-600">Junaid Gabol</span>
           </p>
