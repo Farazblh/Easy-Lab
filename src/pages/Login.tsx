@@ -288,7 +288,7 @@ const Login = () => {
 
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-500">
-            Made by <span className="font-semibold text-gray-700">Junaid Gabol</span>
+            Made by <span className="font-semibold text-orange-600">Junaid Gabol</span>
           </p>
         </div>
       </div>

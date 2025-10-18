@@ -274,7 +274,7 @@ const Samples = () => {
                 </tr>
               ) : (
                 filteredSamples.map((sample) => (
-                  <tr key={sample.id} className="hover:bg-gray-50">
+                  <tr key={sample.id} className="hover:bg-orange-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="text-sm font-medium text-red-600">{sample.sample_code}</span>
                     </td>
