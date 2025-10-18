@@ -232,7 +232,7 @@ const Samples = () => {
         {canModify && (
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
           >
             <Plus className="w-5 h-5" />
             Add Sample
@@ -276,7 +276,7 @@ const Samples = () => {
                 filteredSamples.map((sample) => (
                   <tr key={sample.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-blue-600">{sample.sample_code}</span>
+                      <span className="text-sm font-medium text-red-600">{sample.sample_code}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {sample.sample_type}
@@ -300,7 +300,7 @@ const Samples = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleView(sample)}
-                          className="text-blue-600 hover:text-blue-800"
+                          className="text-red-600 hover:text-blue-800"
                           title="View Details"
                         >
                           <Eye className="w-5 h-5" />

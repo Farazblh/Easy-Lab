@@ -174,7 +174,7 @@ const Dashboard = () => {
           icon={TestTube}
           label="Total Samples"
           value={stats.totalSamples}
-          color="bg-blue-600"
+          color="bg-red-600"
           onDelete={() => handleDeleteAll('all')}
         />
         <StatCard

@@ -185,7 +185,7 @@ const Settings = () => {
       case 'admin':
         return <Shield className="w-4 h-4 text-red-600" />;
       case 'analyst':
-        return <Beaker className="w-4 h-4 text-blue-600" />;
+        return <Beaker className="w-4 h-4 text-red-600" />;
       case 'viewer':
         return <Eye className="w-4 h-4 text-gray-600" />;
       default:
@@ -215,7 +215,7 @@ const Settings = () => {
               <h2 className="text-xl font-semibold text-gray-900">User Management</h2>
               <button
                 onClick={() => setShowAddUser(!showAddUser)}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
               >
                 <UserPlus className="w-5 h-5" />
                 Add User
@@ -252,7 +252,7 @@ const Settings = () => {
                         required
                         value={newUserData.fullName}
                         onChange={(e) => setNewUserData({ ...newUserData, fullName: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -264,7 +264,7 @@ const Settings = () => {
                         required
                         value={newUserData.email}
                         onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -277,7 +277,7 @@ const Settings = () => {
                           required
                           value={newUserData.password}
                           onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })}
-                          className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                         />
                         <button
                           type="button"
@@ -295,7 +295,7 @@ const Settings = () => {
                       <select
                         value={newUserData.role}
                         onChange={(e) => setNewUserData({ ...newUserData, role: e.target.value as any })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       >
                         <option value="viewer">Viewer</option>
                         <option value="analyst">Analyst</option>
@@ -307,7 +307,7 @@ const Settings = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+                      className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:bg-blue-400"
                     >
                       {loading ? 'Adding...' : 'Add User'}
                     </button>
@@ -350,7 +350,7 @@ const Settings = () => {
                         <select
                           value={user.role}
                           onChange={(e) => handleUpdateRole(user.id, e.target.value as any)}
-                          className={`px-3 py-1 rounded-full text-xs font-medium border ${getRoleBadgeClass(user.role)} focus:ring-2 focus:ring-blue-500`}
+                          className={`px-3 py-1 rounded-full text-xs font-medium border ${getRoleBadgeClass(user.role)} focus:ring-2 focus:ring-red-500`}
                         >
                           <option value="viewer">Viewer</option>
                           <option value="analyst">Analyst</option>
@@ -410,7 +410,7 @@ const Settings = () => {
                 onChange={(e) =>
                   setPasswordData({ ...passwordData, newPassword: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Enter new password"
               />
             </div>
@@ -426,7 +426,7 @@ const Settings = () => {
                 onChange={(e) =>
                   setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Confirm new password"
               />
             </div>
@@ -434,7 +434,7 @@ const Settings = () => {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+              className="flex items-center gap-2 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:bg-blue-400"
             >
               <Save className="w-5 h-5" />
               {loading ? 'Changing...' : 'Change Password'}

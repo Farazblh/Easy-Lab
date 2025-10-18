@@ -745,7 +745,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               onClick={() => setReportType('meat')}
               className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
                 reportType === 'meat'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
               disabled={!!generatedReport}
@@ -756,7 +756,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               onClick={() => setReportType('air')}
               className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
                 reportType === 'air'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
               disabled={!!generatedReport}
@@ -767,7 +767,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               onClick={() => setReportType('water')}
               className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
                 reportType === 'water'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
               disabled={!!generatedReport}
@@ -778,7 +778,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               onClick={() => setReportType('foodhandler')}
               className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
                 reportType === 'foodhandler'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
               disabled={!!generatedReport}
@@ -789,7 +789,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               onClick={() => setReportType('foodsurface')}
               className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
                 reportType === 'foodsurface'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
               disabled={!!generatedReport}
@@ -800,7 +800,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               onClick={() => setReportType('deboning')}
               className={`px-5 py-2 rounded-lg font-medium transition-colors text-sm ${
                 reportType === 'deboning'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
               disabled={!!generatedReport}
@@ -845,7 +845,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, sampleType: e.target.value });
                 else setDeboningData({ ...deboningData, sampleType: e.target.value });
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="e.g., Frozen Beef Meat"
               disabled={!!generatedReport}
             />
@@ -873,7 +873,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, sampleCode: e.target.value });
                 else setDeboningData({ ...deboningData, sampleCode: e.target.value });
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="e.g., 876"
               disabled={!!generatedReport}
             />
@@ -901,7 +901,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, collectionDate: e.target.value });
                 else setDeboningData({ ...deboningData, collectionDate: e.target.value });
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               disabled={!!generatedReport}
             />
           </div>
@@ -930,7 +930,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, reportDate: e.target.value });
                 else setDeboningData({ ...deboningData, reportDate: e.target.value });
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               disabled={!!generatedReport}
             />
           </div>
@@ -957,7 +957,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, supplier: e.target.value });
                 else setDeboningData({ ...deboningData, supplier: e.target.value });
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Enter supplier"
               disabled={!!generatedReport}
             />
@@ -984,7 +984,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, status: e.target.value });
                 else if (reportType === 'deboning') setDeboningData({ ...deboningData, status: e.target.value });
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               disabled={!!generatedReport}
             >
               <option value="COMPLETED">COMPLETED</option>
@@ -1014,7 +1014,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 else if (reportType === 'foodsurface') addFoodSurfaceRow();
                 else if (reportType === 'deboning') addDeboningRow();
               }}
-              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
               <Plus className="w-4 h-4" />
               Add Row
@@ -1048,7 +1048,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.supplierCode}
                       onChange={(e) => updateRow(row.id, 'supplierCode', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1057,7 +1057,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="date"
                       value={row.collectionDate}
                       onChange={(e) => updateRow(row.id, 'collectionDate', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1066,7 +1066,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="date"
                       value={row.reportDate}
                       onChange={(e) => updateRow(row.id, 'reportDate', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1075,7 +1075,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.sampleNo}
                       onChange={(e) => updateRow(row.id, 'sampleNo', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1084,7 +1084,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.tpc}
                       onChange={(e) => updateRow(row.id, 'tpc', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1093,7 +1093,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.sAureus}
                       onChange={(e) => updateRow(row.id, 'sAureus', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1102,7 +1102,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.coliforms}
                       onChange={(e) => updateRow(row.id, 'coliforms', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1111,7 +1111,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.ecoliO157}
                       onChange={(e) => updateRow(row.id, 'ecoliO157', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1120,7 +1120,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.salmonella}
                       onChange={(e) => updateRow(row.id, 'salmonella', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1129,7 +1129,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                       type="text"
                       value={row.comments}
                       onChange={(e) => updateRow(row.id, 'comments', e.target.value)}
-                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 text-sm border-0 focus:ring-1 focus:ring-red-500"
                       disabled={!!generatedReport}
                     />
                   </td>
@@ -1162,7 +1162,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={airQualityData.activity}
                   onChange={(e) => setAirQualityData({...airQualityData, activity: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1172,7 +1172,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={airQualityData.sampleTechnique}
                   onChange={(e) => setAirQualityData({...airQualityData, sampleTechnique: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1206,7 +1206,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                               newDepts[idx].name = e.target.value;
                               setAirQualityData({...airQualityData, departments: newDepts});
                             }}
-                            className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                            className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-red-500"
                             disabled={!!generatedReport}
                           />
                         </td>
@@ -1219,7 +1219,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                               newDepts[idx].plate1 = e.target.value;
                               setAirQualityData({...airQualityData, departments: newDepts});
                             }}
-                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                             disabled={!!generatedReport}
                           />
                         </td>
@@ -1232,7 +1232,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                               newDepts[idx].plate2 = e.target.value;
                               setAirQualityData({...airQualityData, departments: newDepts});
                             }}
-                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                             disabled={!!generatedReport}
                           />
                         </td>
@@ -1245,7 +1245,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                               newDepts[idx].plate3 = e.target.value;
                               setAirQualityData({...airQualityData, departments: newDepts});
                             }}
-                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                            className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                             disabled={!!generatedReport}
                           />
                         </td>
@@ -1275,7 +1275,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               <textarea
                 value={airQualityData.remarks}
                 onChange={(e) => setAirQualityData({...airQualityData, remarks: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                 rows={2}
                 disabled={!!generatedReport}
               />
@@ -1292,7 +1292,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={waterQualityData.activity}
                   onChange={(e) => setWaterQualityData({...waterQualityData, activity: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1302,7 +1302,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={waterQualityData.sampleCollectedIn}
                   onChange={(e) => setWaterQualityData({...waterQualityData, sampleCollectedIn: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1338,7 +1338,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].location = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1351,7 +1351,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].color = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1364,7 +1364,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].odor = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1377,7 +1377,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].clarity = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1390,7 +1390,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].ph = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1403,7 +1403,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].tds = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1416,7 +1416,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].apc = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1429,7 +1429,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].totalColiform = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1442,7 +1442,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newPoints[idx].faecalColiform = e.target.value;
                             setWaterQualityData({...waterQualityData, samplingPoints: newPoints});
                           }}
-                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-blue-500 text-xs"
+                          className="w-full px-1 py-1 border-0 focus:ring-1 focus:ring-red-500 text-xs"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1470,7 +1470,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
               <textarea
                 value={waterQualityData.remarks}
                 onChange={(e) => setWaterQualityData({...waterQualityData, remarks: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                 rows={2}
                 disabled={!!generatedReport}
               />
@@ -1487,7 +1487,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={foodHandlerData.activity}
                   onChange={(e) => setFoodHandlerData({...foodHandlerData, activity: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1497,7 +1497,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={foodHandlerData.department}
                   onChange={(e) => setFoodHandlerData({...foodHandlerData, department: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1509,7 +1509,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 type="text"
                 value={foodHandlerData.samplingTechnique}
                 onChange={(e) => setFoodHandlerData({...foodHandlerData, samplingTechnique: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                 disabled={!!generatedReport}
               />
             </div>
@@ -1539,7 +1539,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].area = e.target.value;
                             setFoodHandlerData({...foodHandlerData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1552,7 +1552,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].name = e.target.value;
                             setFoodHandlerData({...foodHandlerData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1565,7 +1565,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].apc = e.target.value;
                             setFoodHandlerData({...foodHandlerData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1578,7 +1578,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].coliform = e.target.value;
                             setFoodHandlerData({...foodHandlerData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1612,7 +1612,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={foodSurfaceData.activity}
                   onChange={(e) => setFoodSurfaceData({...foodSurfaceData, activity: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1622,7 +1622,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={foodSurfaceData.department}
                   onChange={(e) => setFoodSurfaceData({...foodSurfaceData, department: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1634,7 +1634,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 type="text"
                 value={foodSurfaceData.samplingTechnique}
                 onChange={(e) => setFoodSurfaceData({...foodSurfaceData, samplingTechnique: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                 disabled={!!generatedReport}
               />
             </div>
@@ -1663,7 +1663,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newSurfaces[idx].area = e.target.value;
                             setFoodSurfaceData({...foodSurfaceData, surfaces: newSurfaces});
                           }}
-                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1676,7 +1676,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newSurfaces[idx].apc = e.target.value;
                             setFoodSurfaceData({...foodSurfaceData, surfaces: newSurfaces});
                           }}
-                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1689,7 +1689,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newSurfaces[idx].coliform = e.target.value;
                             setFoodSurfaceData({...foodSurfaceData, surfaces: newSurfaces});
                           }}
-                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1723,7 +1723,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={deboningData.activity}
                   onChange={(e) => setDeboningData({...deboningData, activity: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1733,7 +1733,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                   type="text"
                   value={deboningData.department}
                   onChange={(e) => setDeboningData({...deboningData, department: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   disabled={!!generatedReport}
                 />
               </div>
@@ -1745,7 +1745,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                 type="text"
                 value={deboningData.samplingTechnique}
                 onChange={(e) => setDeboningData({...deboningData, samplingTechnique: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
                 disabled={!!generatedReport}
               />
             </div>
@@ -1775,7 +1775,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].area = e.target.value;
                             setDeboningData({...deboningData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1788,7 +1788,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].name = e.target.value;
                             setDeboningData({...deboningData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1801,7 +1801,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].apc = e.target.value;
                             setDeboningData({...deboningData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1814,7 +1814,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
                             newWorkers[idx].coliform = e.target.value;
                             setDeboningData({...deboningData, workers: newWorkers});
                           }}
-                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-blue-500"
+                          className="w-full px-2 py-1 text-center border-0 focus:ring-1 focus:ring-red-500"
                           disabled={!!generatedReport}
                         />
                       </td>
@@ -1843,7 +1843,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           <button
             onClick={handleGenerateReport}
             disabled={loading || !!generatedReport}
-            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
+            className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
           >
             <FileCheck className="w-5 h-5" />
             {loading ? 'Generating...' : generatedReport ? 'Report Generated' : 'Generate Report'}

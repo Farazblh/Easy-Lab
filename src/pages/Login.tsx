@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { FlaskConical, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Beef, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -88,14 +88,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-blue-600 p-4 rounded-full mb-4">
-            <FlaskConical className="w-12 h-12 text-white" />
+          <div className="bg-red-600 p-4 rounded-full mb-4">
+            <Beef className="w-12 h-12 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">LRMS</h1>
-          <p className="text-gray-600 mt-1">Lab Record Management System</p>
+          <h1 className="text-3xl font-bold text-red-600">MeatLab Pro</h1>
+          <p className="text-gray-600 mt-1">Micro Lab Management</p>
         </div>
 
         {!isForgotPassword && (
@@ -105,7 +105,7 @@ const Login = () => {
               onClick={() => !isSignUp || toggleMode()}
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 !isSignUp
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -116,7 +116,7 @@ const Login = () => {
               onClick={() => isSignUp || toggleMode()}
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 isSignUp
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-red-600 text-white'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -158,7 +158,7 @@ const Login = () => {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
                 placeholder="John Doe"
               />
             </div>
@@ -219,7 +219,7 @@ const Login = () => {
                 id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value as 'admin' | 'analyst' | 'viewer')}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
               >
                 <option value="viewer">Viewer (Read-only access)</option>
                 <option value="analyst">Analyst (Can add and edit data)</option>
@@ -233,7 +233,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={toggleForgotPassword}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className="text-sm text-red-600 hover:text-red-700 font-medium"
               >
                 Forgot Password?
               </button>
@@ -243,7 +243,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+            className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:bg-red-400 disabled:cursor-not-allowed"
           >
             {loading
               ? isForgotPassword
@@ -264,21 +264,21 @@ const Login = () => {
             {isForgotPassword ? (
               <>
                 Remember your password?{' '}
-                <button onClick={toggleForgotPassword} className="text-blue-600 hover:text-blue-700 font-medium">
+                <button onClick={toggleForgotPassword} className="text-red-600 hover:text-red-700 font-medium">
                   Sign in here
                 </button>
               </>
             ) : isSignUp ? (
               <>
                 Already have an account?{' '}
-                <button onClick={toggleMode} className="text-blue-600 hover:text-blue-700 font-medium">
+                <button onClick={toggleMode} className="text-red-600 hover:text-red-700 font-medium">
                   Sign in here
                 </button>
               </>
             ) : (
               <>
                 Don't have an account?{' '}
-                <button onClick={toggleMode} className="text-blue-600 hover:text-blue-700 font-medium">
+                <button onClick={toggleMode} className="text-red-600 hover:text-red-700 font-medium">
                   Sign up here
                 </button>
               </>
