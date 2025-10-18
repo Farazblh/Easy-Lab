@@ -203,7 +203,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Samples</h3>
+            <h3 className="text-lg font-semibold text-orange-600">Recent Samples</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -256,53 +256,12 @@ const Dashboard = () => {
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Reports</h3>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Sample
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Supplier
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Date
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {recentReports.length === 0 ? (
-                  <tr>
-                    <td colSpan={3} className="px-4 py-8 text-center text-gray-500 text-sm">
-                      No reports generated yet
-                    </td>
-                  </tr>
-                ) : (
-                  recentReports.map((report) => (
-                    <tr key={report.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3">
-                        <div className="text-sm">
-                          <p className="font-medium text-gray-900">{report.sample?.sample_code || 'N/A'}</p>
-                          <p className="text-xs text-gray-500">{report.sample?.sample_type || ''}</p>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="text-sm text-gray-700">{report.sample?.source || 'N/A'}</span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="text-sm text-gray-600">
-                          {new Date(report.date_generated).toLocaleDateString()}
-                        </span>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+          <div className="p-6">
+            <img
+              src="/Capture.PNG"
+              alt="Test Performance"
+              className="w-full h-auto"
+            />
           </div>
         </div>
       </div>
