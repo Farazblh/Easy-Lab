@@ -88,37 +88,8 @@ const Login = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4 overflow-hidden">
-      {/* Floating Petri Dishes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Left Side Dishes */}
-        <div className="absolute top-[15%] left-[5%] w-32 h-32 animate-float-slow">
-          <img src="/34-removebg-preview.png" alt="Petri Dish" className="w-full h-full object-contain drop-shadow-lg" />
-        </div>
-
-        <div className="absolute top-[45%] left-[8%] w-28 h-28 animate-float-medium">
-          <img src="/29-removebg-preview.png" alt="Petri Dish" className="w-full h-full object-contain drop-shadow-lg" />
-        </div>
-
-        <div className="absolute top-[70%] left-[4%] w-36 h-36 animate-float-fast">
-          <img src="/28-removebg-preview.png" alt="Petri Dish" className="w-full h-full object-contain drop-shadow-lg" />
-        </div>
-
-        {/* Right Side Dishes */}
-        <div className="absolute top-[20%] right-[5%] w-30 h-30 animate-float-medium">
-          <img src="/26-removebg-preview.png" alt="Petri Dish" className="w-full h-full object-contain drop-shadow-lg" />
-        </div>
-
-        <div className="absolute top-[50%] right-[7%] w-32 h-32 animate-float-fast">
-          <img src="/24-removebg-preview.png" alt="Petri Dish" className="w-full h-full object-contain drop-shadow-lg" />
-        </div>
-
-        <div className="absolute top-[75%] right-[4%] w-28 h-28 animate-float-slow">
-          <img src="/34-removebg-preview.png" alt="Petri Dish" className="w-full h-full object-contain drop-shadow-lg" />
-        </div>
-      </div>
-
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto relative z-10">
+    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex flex-col items-center mb-6">
           <div className="mb-3">
             <img src="/pngtree-red-bull-logo-with-black-outline-clipart-png-image_13722053.png" alt="MeatLab Pro" className="w-20 h-20" />
