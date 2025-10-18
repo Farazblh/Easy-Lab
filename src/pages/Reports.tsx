@@ -232,7 +232,7 @@ const Reports = () => {
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Generated Reports</h3>
+          <h3 className="text-lg font-semibold text-orange-600">Generated Reports</h3>
           <p className="text-sm text-gray-600 mt-1">{filteredReports.length} total reports</p>
         </div>
         <div className="overflow-x-auto">

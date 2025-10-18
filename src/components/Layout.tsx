@@ -76,7 +76,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
           <div className="mb-3 px-2">
-            <p className="text-sm font-semibold text-gray-900">{profile?.full_name}</p>
+            <p className="text-sm font-semibold text-orange-600">{profile?.full_name}</p>
             <p className="text-xs text-gray-500 capitalize">{profile?.role}</p>
           </div>
           <button
@@ -102,7 +102,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
               <Menu className="w-6 h-6 text-gray-600" />
             </button>
             <div className="flex-1 lg:flex-none">
-              <h2 className="text-2xl font-bold text-gray-900 capitalize">{currentPage}</h2>
+              <h2 className="text-2xl font-bold text-orange-600 capitalize">{currentPage}</h2>
             </div>
           </div>
         </header>

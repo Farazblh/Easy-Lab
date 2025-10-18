@@ -285,6 +285,12 @@ const Login = () => {
             )}
           </p>
         </div>
+
+        <div className="mt-6 text-center">
+          <p className="text-xs text-gray-500">
+            Created by <span className="font-semibold text-gray-700">Junaid Gabol</span>
+          </p>
+        </div>
       </div>
     </div>
   );
