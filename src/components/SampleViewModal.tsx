@@ -20,7 +20,7 @@ const SampleViewModal = ({ sample, onClose }: SampleViewModalProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="text-sm text-gray-500 mb-1">Sample Code</p>
-              <p className="text-lg font-semibold text-blue-600">{sample.sample_code}</p>
+              <p className="text-lg font-semibold text-red-600">{sample.sample_code}</p>
             </div>
 
             <div>

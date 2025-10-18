@@ -274,8 +274,8 @@ const Reports = () => {
                   <tr key={report.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <FileText className="w-5 h-5 text-blue-600" />
-                        <span className="text-sm font-medium text-blue-600">
+                        <FileText className="w-5 h-5 text-red-600" />
+                        <span className="text-sm font-medium text-red-600">
                           {report.sample?.sample_code || 'N/A'}
                         </span>
                       </div>

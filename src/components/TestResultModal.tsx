@@ -134,7 +134,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
                 step="0.01"
                 value={formData.tpc}
                 onChange={(e) => setFormData({ ...formData, tpc: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Enter TPC value"
               />
             </div>
@@ -144,7 +144,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
               <select
                 value={formData.coliforms}
                 onChange={(e) => setFormData({ ...formData, coliforms: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               >
                 <option value="">Select result</option>
                 <option value="positive">Positive</option>
@@ -157,7 +157,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
               <select
                 value={formData.ecoli_o157}
                 onChange={(e) => setFormData({ ...formData, ecoli_o157: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               >
                 <option value="">Select result</option>
                 <option value="positive">Positive</option>
@@ -170,7 +170,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
               <select
                 value={formData.salmonella}
                 onChange={(e) => setFormData({ ...formData, salmonella: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               >
                 <option value="">Select result</option>
                 <option value="positive">Positive</option>
@@ -185,7 +185,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
                 step="0.01"
                 value={formData.ph}
                 onChange={(e) => setFormData({ ...formData, ph: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Enter pH value"
               />
             </div>
@@ -199,7 +199,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
                 step="0.01"
                 value={formData.tds}
                 onChange={(e) => setFormData({ ...formData, tds: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Enter TDS value"
               />
             </div>
@@ -211,7 +211,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
               value={formData.remarks}
               onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Enter any additional remarks or observations..."
             />
           </div>
@@ -227,7 +227,7 @@ const TestResultModal = ({ sample, onClose }: TestResultModalProps) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:bg-blue-400"
             >
               {loading ? 'Saving...' : sample.test_result ? 'Update Results' : 'Save Results'}
             </button>

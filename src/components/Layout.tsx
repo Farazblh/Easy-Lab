@@ -8,7 +8,7 @@ import {
   LogOut,
   Menu,
   X,
-  Beef,
+  Drumstick,
   ClipboardList,
   FilePlus
 } from 'lucide-react';
@@ -43,7 +43,7 @@ const Layout = ({ children, currentPage, onNavigate }: LayoutProps) => {
       <aside className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-30 transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between p-6 border-b">
           <div className="flex items-center gap-2">
-            <Beef className="w-8 h-8 text-red-600" />
+            <Drumstick className="w-8 h-8 text-red-600" />
             <div>
               <h1 className="text-xl font-bold text-red-600">MeatLab Pro</h1>
               <p className="text-xs text-gray-500">Micro Lab Management</p>

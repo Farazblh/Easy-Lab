@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Beef, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Drumstick, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -92,7 +92,7 @@ const Login = () => {
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
         <div className="flex flex-col items-center mb-8">
           <div className="bg-red-600 p-4 rounded-full mb-4">
-            <Beef className="w-12 h-12 text-white" />
+            <Drumstick className="w-12 h-12 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-red-600">MeatLab Pro</h1>
           <p className="text-gray-600 mt-1">Micro Lab Management</p>
