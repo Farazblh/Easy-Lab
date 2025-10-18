@@ -183,9 +183,9 @@ const Settings = () => {
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'admin':
-        return <Shield className="w-4 h-4 text-red-600" />;
+        return <Shield className="w-4 h-4 text-amber-900" />;
       case 'analyst':
-        return <Beaker className="w-4 h-4 text-red-600" />;
+        return <Beaker className="w-4 h-4 text-amber-900" />;
       case 'viewer':
         return <Eye className="w-4 h-4 text-gray-600" />;
       default:
@@ -196,9 +196,9 @@ const Settings = () => {
   const getRoleBadgeClass = (role: string) => {
     switch (role) {
       case 'admin':
-        return 'bg-red-50 text-red-700 border-red-200';
+        return 'bg-red-50 text-red-700 border-red-300';
       case 'analyst':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
+        return 'bg-stone-100 text-stone-700 border-stone-300';
       case 'viewer':
         return 'bg-gray-50 text-gray-700 border-gray-200';
       default:
@@ -212,10 +212,10 @@ const Settings = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="border-b border-gray-200">
             <div className="px-6 py-4 flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-orange-600">User Management</h2>
+              <h2 className="text-xl font-semibold text-amber-900">User Management</h2>
               <button
                 onClick={() => setShowAddUser(!showAddUser)}
-                className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                className="flex items-center gap-2 bg-amber-900 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
               >
                 <UserPlus className="w-5 h-5" />
                 Add User
@@ -232,9 +232,9 @@ const Settings = () => {
             )}
 
             {error && (
-              <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-                <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-800">{error}</p>
+              <div className="mb-4 bg-red-50 border border-red-300 rounded-lg p-3 flex items-start gap-2">
+                <AlertCircle className="w-5 h-5 text-amber-900 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-900">{error}</p>
               </div>
             )}
 
@@ -252,7 +252,7 @@ const Settings = () => {
                         required
                         value={newUserData.fullName}
                         onChange={(e) => setNewUserData({ ...newUserData, fullName: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -264,7 +264,7 @@ const Settings = () => {
                         required
                         value={newUserData.email}
                         onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -277,7 +277,7 @@ const Settings = () => {
                           required
                           value={newUserData.password}
                           onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })}
-                          className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                          className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
                         />
                         <button
                           type="button"
@@ -295,7 +295,7 @@ const Settings = () => {
                       <select
                         value={newUserData.role}
                         onChange={(e) => setNewUserData({ ...newUserData, role: e.target.value as any })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
                       >
                         <option value="viewer">Viewer</option>
                         <option value="analyst">Analyst</option>
@@ -307,7 +307,7 @@ const Settings = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors disabled:bg-blue-400"
+                      className="bg-amber-900 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition-colors disabled:bg-amber-400"
                     >
                       {loading ? 'Adding...' : 'Add User'}
                     </button>
@@ -350,7 +350,7 @@ const Settings = () => {
                         <select
                           value={user.role}
                           onChange={(e) => handleUpdateRole(user.id, e.target.value as any)}
-                          className={`px-3 py-1 rounded-full text-xs font-medium border ${getRoleBadgeClass(user.role)} focus:ring-2 focus:ring-red-500`}
+                          className={`px-3 py-1 rounded-full text-xs font-medium border ${getRoleBadgeClass(user.role)} focus:ring-2 focus:ring-amber-700`}
                         >
                           <option value="viewer">Viewer</option>
                           <option value="analyst">Analyst</option>
@@ -361,7 +361,7 @@ const Settings = () => {
                         <button
                           onClick={() => handleDeleteUser(user.id)}
                           disabled={user.id === profile?.id}
-                          className="text-red-600 hover:text-red-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+                          className="text-amber-900 hover:text-red-900 disabled:text-gray-400 disabled:cursor-not-allowed"
                           title={user.id === profile?.id ? "You cannot delete yourself" : "Delete user"}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -379,7 +379,7 @@ const Settings = () => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="border-b border-gray-200">
           <div className="px-6 py-4">
-            <h2 className="text-xl font-semibold text-orange-600">Change Password</h2>
+            <h2 className="text-xl font-semibold text-amber-900">Change Password</h2>
           </div>
         </div>
 
@@ -392,9 +392,9 @@ const Settings = () => {
           )}
 
           {error && (
-            <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800">{error}</p>
+            <div className="mb-4 bg-red-50 border border-red-300 rounded-lg p-3 flex items-start gap-2">
+              <AlertCircle className="w-5 h-5 text-amber-900 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-900">{error}</p>
             </div>
           )}
 
@@ -410,7 +410,7 @@ const Settings = () => {
                 onChange={(e) =>
                   setPasswordData({ ...passwordData, newPassword: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
                 placeholder="Enter new password"
               />
             </div>
@@ -426,7 +426,7 @@ const Settings = () => {
                 onChange={(e) =>
                   setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
                 placeholder="Confirm new password"
               />
             </div>
@@ -434,7 +434,7 @@ const Settings = () => {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center gap-2 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors disabled:bg-blue-400"
+              className="flex items-center gap-2 bg-amber-900 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition-colors disabled:bg-amber-400"
             >
               <Save className="w-5 h-5" />
               {loading ? 'Changing...' : 'Change Password'}

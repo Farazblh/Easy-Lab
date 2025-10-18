@@ -111,7 +111,7 @@ const TestResults = () => {
             placeholder="Search samples..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
           />
         </div>
       </div>
@@ -158,7 +158,7 @@ const TestResults = () => {
                 filteredSamples.map((sample) => (
                   <tr key={sample.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-blue-600">{sample.sample_code}</span>
+                      <span className="text-sm font-medium text-amber-800">{sample.sample_code}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {sample.sample_type}
@@ -177,7 +177,7 @@ const TestResults = () => {
                         <span
                           className={`px-2 py-1 text-xs font-semibold rounded-full ${
                             sample.test_result.coliforms === 'positive'
-                              ? 'bg-red-100 text-red-800'
+                              ? 'bg-red-100 text-red-900'
                               : 'bg-green-100 text-green-800'
                           }`}
                         >
@@ -192,7 +192,7 @@ const TestResults = () => {
                         <span
                           className={`px-2 py-1 text-xs font-semibold rounded-full ${
                             sample.test_result.ecoli_o157 === 'positive'
-                              ? 'bg-red-100 text-red-800'
+                              ? 'bg-red-100 text-red-900'
                               : 'bg-green-100 text-green-800'
                           }`}
                         >
@@ -206,7 +206,7 @@ const TestResults = () => {
                       <span
                         className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           sample.test_result
-                            ? 'bg-blue-100 text-blue-800'
+                            ? 'bg-stone-200 text-stone-800'
                             : 'bg-gray-100 text-gray-800'
                         }`}
                       >
@@ -217,7 +217,7 @@ const TestResults = () => {
                       {canModify && (
                         <button
                           onClick={() => handleEdit(sample)}
-                          className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                          className="text-amber-800 hover:text-stone-800 flex items-center gap-1"
                         >
                           {sample.test_result ? (
                             <>

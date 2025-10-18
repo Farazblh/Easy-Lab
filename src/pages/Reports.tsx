@@ -211,7 +211,7 @@ const Reports = () => {
               placeholder="Search reports..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
             />
           </div>
           <div className="relative">
@@ -219,7 +219,7 @@ const Reports = () => {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+              className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent appearance-none bg-white"
             >
               <option value="all">All Time</option>
               <option value="today">Today</option>
@@ -232,7 +232,7 @@ const Reports = () => {
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-orange-600">Generated Reports</h3>
+          <h3 className="text-lg font-semibold text-amber-900">Generated Reports</h3>
           <p className="text-sm text-gray-600 mt-1">{filteredReports.length} total reports</p>
         </div>
         <div className="overflow-x-auto">
@@ -271,11 +271,11 @@ const Reports = () => {
                 </tr>
               ) : (
                 filteredReports.map((report) => (
-                  <tr key={report.id} className="hover:bg-orange-50">
+                  <tr key={report.id} className="hover:bg-amber-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <FileText className="w-5 h-5 text-red-600" />
-                        <span className="text-sm font-medium text-red-600">
+                        <FileText className="w-5 h-5 text-amber-900" />
+                        <span className="text-sm font-medium text-amber-900">
                           {report.sample?.sample_code || 'N/A'}
                         </span>
                       </div>
@@ -311,7 +311,7 @@ const Reports = () => {
                         {profile?.role === 'admin' && (
                           <button
                             onClick={() => handleDelete(report.id)}
-                            className="text-red-600 hover:text-red-800"
+                            className="text-amber-900 hover:text-red-900"
                             title="Delete Report Record"
                           >
                             <Trash2 className="w-5 h-5" />

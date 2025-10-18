@@ -106,9 +106,9 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800">{error}</p>
+            <div className="bg-red-50 border border-red-300 rounded-lg p-3 flex items-start gap-2">
+              <AlertCircle className="w-5 h-5 text-amber-900 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-900">{error}</p>
             </div>
           )}
 
@@ -121,7 +121,7 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
                 required
                 value={formData.sample_type}
                 onChange={(e) => setFormData({ ...formData, sample_type: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
               >
                 <option value="">Select type</option>
                 {sampleTypes.map((type) => (
@@ -140,7 +140,7 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
                 required
                 value={formData.source}
                 onChange={(e) => setFormData({ ...formData, source: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
               >
                 <option value="">Select source</option>
                 <option value="Micro Lab">Micro Lab</option>
@@ -174,7 +174,7 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
                 required
                 value={formData.collection_date}
                 onChange={(e) => setFormData({ ...formData, collection_date: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
               />
             </div>
 
@@ -187,7 +187,7 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
                 required
                 value={formData.received_date}
                 onChange={(e) => setFormData({ ...formData, received_date: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
               />
             </div>
 
@@ -198,7 +198,7 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
               <select
                 value={formData.analyst_id}
                 onChange={(e) => setFormData({ ...formData, analyst_id: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
               >
                 <option value="">Junaid Gabol</option>
                 {analysts.map((analyst) => (
@@ -217,7 +217,7 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
                 onChange={(e) =>
                   setFormData({ ...formData, status: e.target.value as 'pending' | 'completed' })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-700 focus:border-transparent"
               >
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
@@ -236,7 +236,7 @@ const SampleModal = ({ sample, onClose }: SampleModalProps) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:bg-blue-400"
+              className="px-6 py-2 bg-amber-900 text-white rounded-lg hover:bg-amber-700 transition-colors disabled:bg-amber-400"
             >
               {loading ? 'Saving...' : sample ? 'Update Sample' : 'Add Sample'}
             </button>

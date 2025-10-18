@@ -88,13 +88,13 @@ const Login = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex flex-col items-center mb-6">
           <div className="mb-3">
             <img src="/pngtree-red-bull-logo-with-black-outline-clipart-png-image_13722053.png" alt="MeatLab Pro" className="w-20 h-20" />
           </div>
-          <h1 className="text-2xl font-bold text-red-600">MeatLab Pro</h1>
+          <h1 className="text-2xl font-bold text-amber-900">MeatLab Pro</h1>
           <p className="text-gray-600 text-sm mt-1">Micro Lab Management</p>
         </div>
 
@@ -105,8 +105,8 @@ const Login = () => {
               onClick={() => !isSignUp || toggleMode()}
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 !isSignUp
-                  ? 'bg-red-600 text-white hover:bg-orange-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-red-600'
+                  ? 'bg-amber-800 text-white hover:bg-amber-700'
+                  : 'bg-gray-100 text-gray-600 hover:bg-amber-50 hover:text-amber-800'
               }`}
             >
               Sign In
@@ -116,8 +116,8 @@ const Login = () => {
               onClick={() => isSignUp || toggleMode()}
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 isSignUp
-                  ? 'bg-red-600 text-white hover:bg-orange-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-red-600'
+                  ? 'bg-amber-800 text-white hover:bg-amber-700'
+                  : 'bg-gray-100 text-gray-600 hover:bg-amber-50 hover:text-amber-800'
               }`}
             >
               Sign Up
@@ -134,9 +134,9 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-3">
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800">{error}</p>
+            <div className="bg-red-50 border border-red-300 rounded-lg p-3 flex items-start gap-2">
+              <AlertCircle className="w-5 h-5 text-red-700 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-900">{error}</p>
             </div>
           )}
 
@@ -158,7 +158,7 @@ const Login = () => {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-transparent outline-none transition"
                 placeholder="John Doe"
               />
             </div>
@@ -174,7 +174,7 @@ const Login = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-transparent outline-none transition"
               placeholder="your@email.com"
             />
           </div>
@@ -191,13 +191,13 @@ const Login = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-transparent outline-none transition"
                   placeholder={isSignUp ? 'At least 6 characters' : 'Enter your password'}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-amber-800 transition-colors"
                   tabIndex={-1}
                 >
                   {showPassword ? (
@@ -219,7 +219,7 @@ const Login = () => {
                 id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value as 'admin' | 'analyst' | 'viewer')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-transparent outline-none transition"
               >
                 <option value="viewer">Viewer (Read-only access)</option>
                 <option value="analyst">Analyst (Can add and edit data)</option>
@@ -233,7 +233,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={toggleForgotPassword}
-                className="text-sm text-red-600 hover:text-orange-600 font-medium"
+                className="text-sm text-amber-800 hover:text-amber-600 font-medium"
               >
                 Forgot Password?
               </button>
@@ -243,7 +243,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-600 text-white py-2.5 rounded-lg font-semibold hover:bg-orange-600 transition-colors disabled:bg-red-400 disabled:cursor-not-allowed"
+            className="w-full bg-amber-800 text-white py-2.5 rounded-lg font-semibold hover:bg-amber-700 transition-colors disabled:bg-amber-400 disabled:cursor-not-allowed"
           >
             {loading
               ? isForgotPassword
@@ -264,21 +264,21 @@ const Login = () => {
             {isForgotPassword ? (
               <>
                 Remember your password?{' '}
-                <button onClick={toggleForgotPassword} className="text-red-600 hover:text-orange-600 font-medium">
+                <button onClick={toggleForgotPassword} className="text-amber-800 hover:text-amber-600 font-medium">
                   Sign in here
                 </button>
               </>
             ) : isSignUp ? (
               <>
                 Already have an account?{' '}
-                <button onClick={toggleMode} className="text-red-600 hover:text-orange-600 font-medium">
+                <button onClick={toggleMode} className="text-amber-800 hover:text-amber-600 font-medium">
                   Sign in here
                 </button>
               </>
             ) : (
               <>
                 Don't have an account?{' '}
-                <button onClick={toggleMode} className="text-red-600 hover:text-orange-600 font-medium">
+                <button onClick={toggleMode} className="text-amber-800 hover:text-amber-600 font-medium">
                   Sign up here
                 </button>
               </>
@@ -288,7 +288,7 @@ const Login = () => {
 
         <div className="mt-4 text-center">
           <p className="text-xs text-gray-500">
-            Made by <span className="font-semibold text-orange-600">Junaid Gabol</span>
+            Made by <span className="font-semibold text-amber-800">Junaid Gabol</span>
           </p>
         </div>
       </div>

@@ -20,7 +20,7 @@ const SampleViewModal = ({ sample, onClose }: SampleViewModalProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="text-sm text-gray-500 mb-1">Sample Code</p>
-              <p className="text-lg font-semibold text-red-600">{sample.sample_code}</p>
+              <p className="text-lg font-semibold text-amber-900">{sample.sample_code}</p>
             </div>
 
             <div>
@@ -29,7 +29,7 @@ const SampleViewModal = ({ sample, onClose }: SampleViewModalProps) => {
                 className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                   sample.status === 'completed'
                     ? 'bg-green-100 text-green-800'
-                    : 'bg-orange-100 text-orange-800'
+                    : 'bg-amber-50 text-amber-700'
                 }`}
               >
                 {sample.status}
@@ -81,7 +81,7 @@ const SampleViewModal = ({ sample, onClose }: SampleViewModalProps) => {
           <div className="flex justify-end pt-4 border-t">
             <button
               onClick={onClose}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-6 py-2 bg-amber-800 text-white rounded-lg hover:bg-amber-700 transition-colors"
             >
               Close
             </button>
