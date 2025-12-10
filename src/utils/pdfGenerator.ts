@@ -4,6 +4,7 @@ type SampleData = {
   sample_code: string;
   sample_type: string;
   source: string;
+  consignee?: string | null;
   collection_date: string;
   received_date: string;
   status: string;
@@ -20,6 +21,7 @@ type SampleData = {
     ecoli_o157: string | null;
     salmonella: string | null;
     ph: number | null;
+    temperature: number | null;
     tds: number | null;
     remarks: string | null;
     tested_at: string;
@@ -40,7 +42,7 @@ type LabSettings = {
 export const generatePDFReport = async (
   sample: SampleData,
   labSettings: LabSettings,
-  options: { download?: boolean; print?: boolean; reportType?: string; customData?: any } = { download: true, print: false }
+  options: { download?: boolean; print?: boolean; reportType?: string; customData?: any; reportNumber?: string } = { download: true, print: false }
 ) => {
   const doc = new jsPDF({
     orientation: 'portrait',
@@ -82,6 +84,15 @@ export const generatePDFReport = async (
     doc.setTextColor(80, 80, 80);
     doc.text('Survey # 310, Deh Shah Mureed, Gadap, Karachi, Pakistan', pageWidth / 2, yPos + 16, { align: 'center' });
 
+    // Add report number below address
+    if (options.reportNumber) {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(139, 69, 19);
+      doc.text(`Report No: ${options.reportNumber}`, pageWidth / 2, yPos + 21, { align: 'center' });
+      yPos += 5;
+    }
+
     yPos += logoSize + 5;
   } catch (error) {
     console.error('Logo load error:', error);
@@ -105,6 +116,15 @@ export const generatePDFReport = async (
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(80, 80, 80);
     doc.text('Survey # 310, Deh Shah Mureed, Gadap, Karachi, Pakistan', pageWidth / 2, yPos + 16, { align: 'center' });
+
+    // Add report number below address
+    if (options.reportNumber) {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(139, 69, 19);
+      doc.text(`Report No: ${options.reportNumber}`, pageWidth / 2, yPos + 21, { align: 'center' });
+      yPos += 5;
+    }
 
     yPos += logoSize + 5;
   }
@@ -137,18 +157,7 @@ export const generatePDFReport = async (
   const col1X = margin + 3;
   const col2X = pageWidth / 2 + 5;
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('Sample Type:', col1X, yPos);
-  doc.setFont('helvetica', 'normal');
-  doc.text(sample.sample_type, col1X + 35, yPos);
-
-  doc.setFont('helvetica', 'bold');
-  doc.text('Sample Code:', col2X, yPos);
-  doc.setFont('helvetica', 'normal');
-  doc.text(sample.sample_code, col2X + 35, yPos);
-
-  yPos += 6;
-
+  // Row 1: Collection Date | Report Date
   doc.setFont('helvetica', 'bold');
   doc.text('Collection Date:', col1X, yPos);
   doc.setFont('helvetica', 'normal');
@@ -161,6 +170,20 @@ export const generatePDFReport = async (
 
   yPos += 6;
 
+  // Row 2: Sample Type | Consignee
+  doc.setFont('helvetica', 'bold');
+  doc.text('Sample Type:', col1X, yPos);
+  doc.setFont('helvetica', 'normal');
+  doc.text(sample.sample_type, col1X + 35, yPos);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Consignee:', col2X, yPos);
+  doc.setFont('helvetica', 'normal');
+  doc.text(sample.consignee || 'N/A', col2X + 35, yPos);
+
+  yPos += 6;
+
+  // Row 3: Supplier | Status
   doc.setFont('helvetica', 'bold');
   doc.text('Supplier:', col1X, yPos);
   doc.setFont('helvetica', 'normal');
@@ -170,6 +193,25 @@ export const generatePDFReport = async (
   doc.text('Status:', col2X, yPos);
   doc.setFont('helvetica', 'normal');
   doc.text(sample.status.toUpperCase(), col2X + 35, yPos);
+
+  yPos += 6;
+
+  // Row 4: pH | Temperature (only for meat reports)
+  if (options.reportType === 'meat' && sample.test_result) {
+    doc.setFont('helvetica', 'bold');
+    doc.text('pH:', col1X, yPos);
+    doc.setFont('helvetica', 'normal');
+    doc.text(sample.test_result.ph !== null ? sample.test_result.ph.toString() : 'N/A', col1X + 35, yPos);
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Temperature:', col2X, yPos);
+    doc.setFont('helvetica', 'normal');
+    doc.text(sample.test_result.temperature !== null ? `${sample.test_result.temperature}°C` : 'N/A', col2X + 35, yPos);
+
+    yPos += 6;
+  } else {
+    yPos -= 6;
+  }
 
   yPos += 10;
   doc.setFillColor(139, 69, 19);

@@ -28,6 +28,9 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
   const [loading, setLoading] = useState(false);
   const [reportTitle, setReportTitle] = useState('Frozen Beef Meat');
   const [supplierName, setSupplierName] = useState('');
+  const [consigneeName, setConsigneeName] = useState('');
+  const [pH, setPH] = useState('');
+  const [temperature, setTemperature] = useState('');
   const [totalSamples, setTotalSamples] = useState('1 Beef Meat Sample');
   const [issueNo, setIssueNo] = useState('02');
   const [revNo, setRevNo] = useState('01');
@@ -444,6 +447,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             collection_date: getCollectionDate(),
             received_date: getReportDate(),
             status: 'completed',
+            consignee: reportType === 'meat' ? consigneeName : null,
             updated_at: new Date().toISOString(),
           })
           .eq('id', existingSample.id)
@@ -463,6 +467,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             collection_date: getCollectionDate(),
             received_date: getReportDate(),
             status: 'completed',
+            consignee: reportType === 'meat' ? consigneeName : null,
           })
           .select()
           .single();
@@ -490,7 +495,8 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             ecoli_o157: sampleRows[0].ecoliO157.toLowerCase(),
             salmonella: sampleRows[0].salmonella.toLowerCase(),
             s_aureus: sampleRows[0].sAureus,
-            ph: null,
+            ph: pH ? parseFloat(pH) : null,
+            temperature: temperature ? parseFloat(temperature) : null,
             tds: null,
             remarks: sampleRows[0].comments,
             tested_by: userId,
@@ -601,11 +607,18 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         testResult = inserted;
       }
 
+      // Generate report number
+      const { data: reportNumberData, error: reportNumberError } = await supabase.rpc('generate_report_number');
+
+      if (reportNumberError) throw reportNumberError;
+      const reportNumber = reportNumberData;
+
       const { data: reportData, error: reportError } = await supabase
         .from('reports')
         .insert({
           sample_id: sampleData.id,
           user_id: userId,
+          report_number: reportNumber,
           pdf_url: `${sampleCode}_Report_${new Date().toISOString().split('T')[0]}.pdf`,
           generated_by: userId,
         })
@@ -675,6 +688,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         sample_code: sampleInfo.sample_code,
         sample_type: sampleInfo.sample_type,
         source: sampleInfo.source,
+        consignee: sampleInfo.consignee || null,
         collection_date: sampleInfo.collection_date,
         received_date: sampleInfo.received_date,
         status: sampleInfo.status,
@@ -720,6 +734,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           print: action === 'print',
           reportType: reportTypeFromData,
           customData: customData,
+          reportNumber: generatedReport.report_number,
         }
       );
 
@@ -993,6 +1008,54 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
             </select>
           </div>
         </div>
+
+        {reportType === 'meat' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Consignee
+              </label>
+              <input
+                type="text"
+                value={consigneeName}
+                onChange={(e) => setConsigneeName(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="Enter consignee name"
+                disabled={!!generatedReport}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                pH
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                value={pH}
+                onChange={(e) => setPH(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="e.g., 5.8"
+                disabled={!!generatedReport}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Temperature (°C)
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                value={temperature}
+                onChange={(e) => setTemperature(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="e.g., -18"
+                disabled={!!generatedReport}
+              />
+            </div>
+          </div>
+        )}
 
 
         <div className="flex justify-between items-center mb-4">
