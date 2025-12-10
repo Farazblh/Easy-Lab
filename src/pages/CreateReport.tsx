@@ -26,7 +26,7 @@ type CreateReportProps = {
 const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
   const { profile } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [reportTitle, setReportTitle] = useState('Frozen Beef Meat');
+  const [reportTitle, setReportTitle] = useState('Beef Raw Meat (after washing)');
   const [supplierName, setSupplierName] = useState('');
   const [consigneeName, setConsigneeName] = useState('');
   const [pH, setPH] = useState('');
