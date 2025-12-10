@@ -799,7 +799,10 @@ export const generatePDFReport = async (
     const references = [
       '1. FDA Bacteriological Analytical Manual (BAM), U.S. Food and Drug Administration',
       '2. USDA AMS Specifications for Frozen Beef and Meat Products',
-      '3. ISO 17025:2017 - General Requirements for the Competence of Testing and Calibration Laboratories'
+      '3. ISO 17025:2017 - General Requirements for the Competence of Testing and Calibration Laboratories',
+      '4. GSO 1016:2015 - Microbiological Criteria for Foodstuffs, Gulf Standardization Organization (GSO),',
+      '   Kingdom of Saudi Arabia & GCC Member States.',
+      '5. AOAC Official Methods of Analysis, Association of Official Analytical Chemists International'
     ];
     references.forEach((ref, idx) => {
       doc.text(ref, margin + 2, yPos + (idx * 4.5));
