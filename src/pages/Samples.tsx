@@ -163,6 +163,9 @@ const Samples = () => {
       }
     }
 
+    const { data: reportNumberData } = await supabase.rpc('generate_report_number');
+    const reportNumber = reportNumberData || 'TOMC-0000-0000';
+
     await generatePDFReport(
       formattedSample,
       labSettings || {
@@ -177,6 +180,7 @@ const Samples = () => {
         print: action === 'print',
         reportType: reportType,
         customData: customData,
+        reportNumber: reportNumber,
       }
     );
 
@@ -184,6 +188,7 @@ const Samples = () => {
       await supabase.from('reports').insert({
         sample_id: sampleId,
         user_id: sampleData.user_id,
+        report_number: reportNumber,
         pdf_url: `${sampleData.sample_code}_Report.pdf`,
         generated_by: profile?.id,
       });
