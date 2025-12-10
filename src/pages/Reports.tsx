@@ -172,6 +172,24 @@ const Reports = () => {
         }
       }
 
+      // Ensure report number exists, if not log and use fallback
+      let reportNumber = reportData.report_number;
+      if (!reportNumber) {
+        console.warn('Report number missing for report ID:', reportId);
+        // Generate a new report number for old reports
+        const { data: newReportNumber } = await supabase.rpc('generate_report_number');
+        reportNumber = newReportNumber || 'TOMC-0000-0000';
+
+        // Update the database with the new report number
+        if (newReportNumber) {
+          await supabase
+            .from('reports')
+            .update({ report_number: newReportNumber })
+            .eq('id', reportId);
+        }
+      }
+      console.log('Using report number:', reportNumber);
+
       await generatePDFReport(
         sampleData,
         labSettings || {
@@ -186,7 +204,7 @@ const Reports = () => {
           print: false,
           reportType: reportType,
           customData: customData,
-          reportNumber: reportData.report_number,
+          reportNumber: reportNumber,
         }
       );
     } catch (error: any) {

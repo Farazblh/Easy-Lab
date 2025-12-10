@@ -606,8 +606,17 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       // Generate report number
       const { data: reportNumberData, error: reportNumberError } = await supabase.rpc('generate_report_number');
 
-      if (reportNumberError) throw reportNumberError;
+      if (reportNumberError) {
+        console.error('Report number generation error:', reportNumberError);
+        throw new Error('Failed to generate report number. Please try again.');
+      }
+
+      if (!reportNumberData) {
+        throw new Error('Report number generation returned empty. Please try again.');
+      }
+
       const reportNumber = reportNumberData;
+      console.log('Generated report number:', reportNumber);
 
       const { data: reportData, error: reportError } = await supabase
         .from('reports')
@@ -716,6 +725,13 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         customData = generatedReport.deboningData || deboningData;
       }
 
+      // Ensure report number exists
+      const reportNumber = generatedReport.report_number || 'TOMC-0000-0000';
+      if (!generatedReport.report_number) {
+        console.warn('Report number missing from generated report');
+      }
+      console.log('Using report number:', reportNumber);
+
       await generatePDFReport(
         sampleData,
         labSettings || {
@@ -730,7 +746,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           print: action === 'print',
           reportType: reportTypeFromData,
           customData: customData,
-          reportNumber: generatedReport.report_number,
+          reportNumber: reportNumber,
         }
       );
 

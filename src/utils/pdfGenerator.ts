@@ -44,6 +44,12 @@ export const generatePDFReport = async (
   labSettings: LabSettings,
   options: { download?: boolean; print?: boolean; reportType?: string; customData?: any; reportNumber?: string } = { download: true, print: false }
 ) => {
+  // Ensure report number always exists - log if missing
+  if (!options.reportNumber) {
+    console.error('WARNING: Report number missing in PDF generation! Options:', options);
+  }
+  const reportNumber = options.reportNumber || 'PENDING';
+
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -84,14 +90,12 @@ export const generatePDFReport = async (
     doc.setTextColor(80, 80, 80);
     doc.text('Survey # 310, Deh Shah Mureed, Gadap, Karachi, Pakistan', pageWidth / 2, yPos + 16, { align: 'center' });
 
-    // Add report number below address
-    if (options.reportNumber) {
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(139, 69, 19);
-      doc.text(`Report No: ${options.reportNumber}`, pageWidth / 2, yPos + 21, { align: 'center' });
-      yPos += 5;
-    }
+    // Add report number below address (always displayed)
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(139, 69, 19);
+    doc.text(`Report No: ${reportNumber}`, pageWidth / 2, yPos + 21, { align: 'center' });
+    yPos += 5;
 
     yPos += logoSize + 5;
   } catch (error) {
@@ -117,14 +121,12 @@ export const generatePDFReport = async (
     doc.setTextColor(80, 80, 80);
     doc.text('Survey # 310, Deh Shah Mureed, Gadap, Karachi, Pakistan', pageWidth / 2, yPos + 16, { align: 'center' });
 
-    // Add report number below address
-    if (options.reportNumber) {
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(139, 69, 19);
-      doc.text(`Report No: ${options.reportNumber}`, pageWidth / 2, yPos + 21, { align: 'center' });
-      yPos += 5;
-    }
+    // Add report number below address (always displayed)
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(139, 69, 19);
+    doc.text(`Report No: ${reportNumber}`, pageWidth / 2, yPos + 21, { align: 'center' });
+    yPos += 5;
 
     yPos += logoSize + 5;
   }

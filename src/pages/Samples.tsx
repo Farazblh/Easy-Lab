@@ -163,8 +163,21 @@ const Samples = () => {
       }
     }
 
-    const { data: reportNumberData } = await supabase.rpc('generate_report_number');
+    const { data: reportNumberData, error: reportNumberError } = await supabase.rpc('generate_report_number');
+
+    if (reportNumberError) {
+      console.error('Report number generation error:', reportNumberError);
+      alert('Error generating report number. Please try again.');
+      return;
+    }
+
     const reportNumber = reportNumberData || 'TOMC-0000-0000';
+
+    if (!reportNumberData) {
+      console.warn('Report number generation returned empty');
+    }
+
+    console.log('Generated report number:', reportNumber);
 
     await generatePDFReport(
       formattedSample,
