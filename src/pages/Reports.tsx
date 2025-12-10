@@ -136,6 +136,7 @@ const Reports = () => {
         sample_code: sampleInfo.sample_code,
         sample_type: sampleInfo.sample_type,
         source: sampleInfo.source,
+        consignee: sampleInfo.consignee || null,
         collection_date: sampleInfo.collection_date,
         received_date: sampleInfo.received_date,
         status: sampleInfo.status,
@@ -185,6 +186,7 @@ const Reports = () => {
           print: false,
           reportType: reportType,
           customData: customData,
+          reportNumber: reportData.report_number,
         }
       );
     } catch (error: any) {
