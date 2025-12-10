@@ -183,20 +183,7 @@ export const generatePDFReport = async (
 
   yPos += 6;
 
-  // Row 3: Supplier | Status
-  doc.setFont('helvetica', 'bold');
-  doc.text('Supplier:', col1X, yPos);
-  doc.setFont('helvetica', 'normal');
-  doc.text(sample.client.name, col1X + 35, yPos);
-
-  doc.setFont('helvetica', 'bold');
-  doc.text('Status:', col2X, yPos);
-  doc.setFont('helvetica', 'normal');
-  doc.text(sample.status.toUpperCase(), col2X + 35, yPos);
-
-  yPos += 6;
-
-  // Row 4: pH | Temperature (only for meat reports)
+  // Row 3: pH | Temperature (swapped from Supplier | Status)
   if (options.reportType === 'meat' && sample.test_result) {
     doc.setFont('helvetica', 'bold');
     doc.text('pH:', col1X, yPos);
@@ -209,9 +196,18 @@ export const generatePDFReport = async (
     doc.text(sample.test_result.temperature !== null ? `${sample.test_result.temperature}°C` : 'N/A', col2X + 35, yPos);
 
     yPos += 6;
-  } else {
-    yPos -= 6;
   }
+
+  // Row 4: Supplier | Status (swapped from pH | Temperature)
+  doc.setFont('helvetica', 'bold');
+  doc.text('Supplier:', col1X, yPos);
+  doc.setFont('helvetica', 'normal');
+  doc.text(sample.client.name, col1X + 35, yPos);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Status:', col2X, yPos);
+  doc.setFont('helvetica', 'normal');
+  doc.text(sample.status.toUpperCase(), col2X + 35, yPos);
 
   yPos += 10;
   doc.setFillColor(139, 69, 19);

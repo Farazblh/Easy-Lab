@@ -382,13 +382,14 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
       setLoading(true);
 
     try {
+      // Auto-generate unique sample code for all report types
       const sampleCode = reportType === 'meat'
-        ? (sampleRows[0].supplierCode || `SAMPLE-${Date.now()}`)
-        : reportType === 'air' ? (airQualityData.sampleCode || `AIR-${Date.now()}`)
-        : reportType === 'water' ? (waterQualityData.sampleCode || `WATER-${Date.now()}`)
-        : reportType === 'foodhandler' ? (foodHandlerData.sampleCode || `FH-${Date.now()}`)
-        : reportType === 'foodsurface' ? (foodSurfaceData.sampleCode || `FS-${Date.now()}`)
-        : (deboningData.sampleCode || `DB-${Date.now()}`);
+        ? `MEAT-${Date.now()}`
+        : reportType === 'air' ? `AIR-${Date.now()}`
+        : reportType === 'water' ? `WATER-${Date.now()}`
+        : reportType === 'foodhandler' ? `FH-${Date.now()}`
+        : reportType === 'foodsurface' ? `FS-${Date.now()}`
+        : `DB-${Date.now()}`;
 
       const { data: existingSample } = await supabase
         .from('samples')
@@ -868,28 +869,14 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Sample Code
+              Consignee
             </label>
             <input
               type="text"
-              value={
-                reportType === 'meat' ? (sampleRows[0]?.supplierCode || '') :
-                reportType === 'air' ? airQualityData.sampleCode :
-                reportType === 'water' ? waterQualityData.sampleCode :
-                reportType === 'foodhandler' ? foodHandlerData.sampleCode :
-                reportType === 'foodsurface' ? foodSurfaceData.sampleCode :
-                deboningData.sampleCode
-              }
-              onChange={(e) => {
-                if (reportType === 'meat') updateRow(sampleRows[0].id, 'supplierCode', e.target.value);
-                else if (reportType === 'air') setAirQualityData({ ...airQualityData, sampleCode: e.target.value });
-                else if (reportType === 'water') setWaterQualityData({ ...waterQualityData, sampleCode: e.target.value });
-                else if (reportType === 'foodhandler') setFoodHandlerData({ ...foodHandlerData, sampleCode: e.target.value });
-                else if (reportType === 'foodsurface') setFoodSurfaceData({ ...foodSurfaceData, sampleCode: e.target.value });
-                else setDeboningData({ ...deboningData, sampleCode: e.target.value });
-              }}
+              value={consigneeName}
+              onChange={(e) => setConsigneeName(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              placeholder="e.g., 876"
+              placeholder="Enter consignee name"
               disabled={!!generatedReport}
             />
           </div>
@@ -1010,21 +997,7 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
         </div>
 
         {reportType === 'meat' && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Consignee
-              </label>
-              <input
-                type="text"
-                value={consigneeName}
-                onChange={(e) => setConsigneeName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Enter consignee name"
-                disabled={!!generatedReport}
-              />
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 pH
