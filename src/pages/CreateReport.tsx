@@ -316,11 +316,6 @@ const CreateReport = ({ onReportGenerated }: CreateReportProps) => {
           return;
         }
 
-        if (!sampleRows[0].supplierCode || !sampleRows[0].supplierCode.trim()) {
-          alert('Please enter supplier code');
-          return;
-        }
-
         if (!sampleRows[0].collectionDate) {
           alert('Please enter collection date');
           return;
