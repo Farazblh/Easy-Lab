@@ -941,7 +941,7 @@ export const generatePDFReport = async (
   }
 
   if (options.download) {
-    const fileName = `${sample.sample_code}_Report_${new Date().toISOString().split('T')[0]}.pdf`;
+    const fileName = `${reportNumber}_${sample.sample_code}.pdf`;
     doc.save(fileName);
   }
 
