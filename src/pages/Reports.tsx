@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Search, Filter, FileText, Trash2, Download, Edit } from 'lucide-react';
+import { Search, Filter, FileText, Trash2, Download, CreditCard as Edit } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 import ReportEditModal from '../components/ReportEditModal';
 
