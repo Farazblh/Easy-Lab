@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Search, Filter, FileText, Trash2, Download } from 'lucide-react';
+import { Search, Filter, FileText, Trash2, Download, Edit } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
+import ReportEditModal from '../components/ReportEditModal';
 
 type Report = {
   id: string;
@@ -26,6 +27,8 @@ const Reports = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('all');
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingReport, setEditingReport] = useState<Report | null>(null);
 
   useEffect(() => {
     fetchReports();
@@ -34,6 +37,18 @@ const Reports = () => {
   useEffect(() => {
     filterReports();
   }, [searchTerm, dateFilter, reports]);
+
+  const fetchFullReport = async (reportId: string) => {
+    const { data } = await supabase
+      .from('reports')
+      .select(`
+        *,
+        sample:sample_id (*)
+      `)
+      .eq('id', reportId)
+      .single();
+    return data;
+  };
 
   const fetchReports = async () => {
     setLoading(true);
@@ -104,6 +119,22 @@ const Reports = () => {
     }
   };
 
+  const handleEdit = async (report: Report) => {
+    const fullReport = await fetchFullReport(report.id);
+    setEditingReport(fullReport);
+    setShowEditModal(true);
+  };
+
+  const handleEditClose = () => {
+    setShowEditModal(false);
+    setEditingReport(null);
+  };
+
+  const handleEditSave = () => {
+    fetchReports();
+    handleEditClose();
+  };
+
   const handleDownload = async (reportId: string) => {
     try {
       const { data: reportData, error } = await supabase
@@ -136,13 +167,13 @@ const Reports = () => {
         sample_code: sampleInfo.sample_code,
         sample_type: sampleInfo.sample_type,
         source: sampleInfo.source,
-        consignee: sampleInfo.consignee || null,
+        consignee: reportData.consignee || sampleInfo.consignee || null,
         collection_date: sampleInfo.collection_date,
         received_date: sampleInfo.received_date,
         status: sampleInfo.status,
         client: {
-          name: sampleInfo.source,
-          company: sampleInfo.source,
+          name: reportData.supplier || sampleInfo.source,
+          company: reportData.supplier || sampleInfo.source,
           email: null,
           phone: null,
           address: null,
@@ -328,6 +359,15 @@ const Reports = () => {
                         >
                           <Download className="w-5 h-5" />
                         </button>
+                        {(profile?.role === 'admin' || profile?.role === 'analyst') && (
+                          <button
+                            onClick={() => handleEdit(report)}
+                            className="text-blue-600 hover:text-blue-800"
+                            title="Edit Report"
+                          >
+                            <Edit className="w-5 h-5" />
+                          </button>
+                        )}
                         {profile?.role === 'admin' && (
                           <button
                             onClick={() => handleDelete(report.id)}
@@ -346,6 +386,14 @@ const Reports = () => {
           </table>
         </div>
       </div>
+
+      {showEditModal && editingReport && (
+        <ReportEditModal
+          report={editingReport}
+          onClose={handleEditClose}
+          onSave={handleEditSave}
+        />
+      )}
     </div>
   );
 };
